@@ -10,6 +10,7 @@ import orderRoutes from './routes/orders';
 import progressRoutes from './routes/progress';
 import adminRoutes from './routes/admin';
 import testimonialRoutes from './routes/testimonials';
+import { performSeed } from './utils/seeder';
 
 // Load environment variables
 dotenv.config();
@@ -39,6 +40,16 @@ app.use('/api/testimonials', testimonialRoutes);
 // ─── Health Check ───
 app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', message: 'Skillyukti API is running' });
+});
+
+// ─── Temporary Seeding Route (Delete after use) ───
+app.get('/api/seed', async (_req, res) => {
+    try {
+        const result = await performSeed();
+        res.json(result);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 // ─── Error Handler ───
