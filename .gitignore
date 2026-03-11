@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.next/
+dist/
+build/
+*.log
+
+# Environment Variables
+.env
+.env.local
+.env.production
+.env.test
+
+# IDE / System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Misc
+*.tmp
+temp/
