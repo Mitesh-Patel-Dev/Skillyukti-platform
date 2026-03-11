@@ -121,7 +121,7 @@ courseSchema.pre('save', function (next) {
     next();
 });
 
-courseSchema.index({ slug: 1 });
+// courseSchema.index({ slug: 1 });
 courseSchema.index({ published: 1, featured: 1 });
 
 export default mongoose.model<ICourse>('Course', courseSchema);
