@@ -38,7 +38,7 @@ export default function NewCoursePage() {
         try {
             const { data } = await api.post('/admin/courses', form);
             toast.success('Course created!');
-            router.push(`/admin/courses/${data._id}`);
+            router.push('/admin/courses');
         } catch (error: any) {
             toast.error(error.response?.data?.message || 'Failed to create course');
         } finally {
