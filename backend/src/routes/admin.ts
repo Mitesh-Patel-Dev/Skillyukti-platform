@@ -36,6 +36,13 @@ router.get('/courses', async (_req: Request, res: Response): Promise<void> => {
  */
 router.post('/courses', async (req: Request, res: Response): Promise<void> => {
     try {
+        // Auto-generate slug from title if not provided
+        if (req.body.title && !req.body.slug) {
+            req.body.slug = req.body.title
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+        }
         const course = await Course.create(req.body);
         res.status(201).json(course);
     } catch (error: any) {
