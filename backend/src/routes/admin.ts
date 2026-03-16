@@ -38,10 +38,19 @@ router.post('/courses', async (req: Request, res: Response): Promise<void> => {
     try {
         // Auto-generate slug from title if not provided
         if (req.body.title && !req.body.slug) {
-            req.body.slug = req.body.title
+            let baseSlug = req.body.title
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/(^-|-$)/g, '');
+            
+            // Handle duplicate slugs by appending a number
+            let slug = baseSlug;
+            let counter = 1;
+            while (await Course.findOne({ slug })) {
+                counter++;
+                slug = `${baseSlug}-${counter}`;
+            }
+            req.body.slug = slug;
         }
         const course = await Course.create(req.body);
         res.status(201).json(course);
