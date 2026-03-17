@@ -1,9 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Award, Users, Rocket } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Award, Users, Rocket, X } from 'lucide-react';
 
 export default function InstructorSection() {
+    const [isImageOpen, setIsImageOpen] = useState(false);
+
     return (
         <section className="py-24 relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,19 +23,28 @@ export default function InstructorSection() {
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-3xl blur-3xl" />
                             {/* Photo container */}
-                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-6">
+                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-10 lg:p-12">
                                 <div className="flex flex-col xl:flex-row items-center gap-6 xl:gap-8 w-full justify-center">
-                                    <div className="w-36 h-36 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple p-[3px] shrink-0 shadow-2xl">
+                                    <motion.div 
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        onClick={() => setIsImageOpen(true)}
+                                        className="w-36 h-36 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple p-[3px] shrink-0 shadow-2xl cursor-pointer relative group"
+                                    >
+                                        <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                            <span className="text-white text-sm font-semibold tracking-wider">VIEW</span>
+                                        </div>
                                         <div className="w-full h-full rounded-full overflow-hidden bg-dark-800 border-4 border-dark-900/50">
                                             <img src="/images/founder.jpg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
                                         </div>
-                                    </div>
+                                    </motion.div>
                                     <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
-                                        <h3 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-tight">
-                                            Khushabu<br className="hidden sm:block" />Chauhan
+                                        <h3 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-tight whitespace-nowrap">
+                                            Khushabu Chauhan
                                         </h3>
-                                        <p className="text-primary-300 font-semibold text-lg leading-snug">
-                                            Founder & Lead<br className="hidden sm:block" />Instructor
+                                        <div className="hidden sm:block w-px h-12 bg-white/10"></div>
+                                        <p className="text-primary-300 font-semibold text-lg leading-snug whitespace-nowrap">
+                                            Founder & <br className="hidden xl:block" />Lead Instructor
                                         </p>
                                     </div>
                                 </div>
@@ -110,6 +122,34 @@ export default function InstructorSection() {
                     </motion.div>
                 </div>
             </div>
+            {/* Image Modal */}
+            <AnimatePresence>
+                {isImageOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsImageOpen(false)}
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-900/80 backdrop-blur-sm cursor-zoom-out"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="relative max-w-lg w-full aspect-[4/5] sm:aspect-square rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10 bg-dark-800"
+                        >
+                            <button
+                                onClick={() => setIsImageOpen(false)}
+                                className="absolute top-4 right-4 z-10 p-2.5 bg-dark-900/50 hover:bg-dark-900 text-white rounded-full backdrop-blur-md transition-colors"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                            <img src="/images/founder.jpg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 }
