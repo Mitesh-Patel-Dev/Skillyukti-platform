@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Save, Image, User, Trash2, Play } from 'lucide-react';
@@ -9,8 +9,7 @@ import api from '@/lib/api';
 import { Course } from '@/types';
 import toast from 'react-hot-toast';
 
-export default function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
-    const resolvedParams = use(params);
+export default function EditCoursePage({ params }: { params: { id: string } }) {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -33,7 +32,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         const fetchCourse = async () => {
             try {
                 const { data } = await api.get(`/admin/courses`);
-                const course = data.find((c: Course) => c._id === resolvedParams.id);
+                const course = data.find((c: Course) => c._id === params.id);
                 if (course) {
                     setForm({
                         title: course.title,
@@ -60,7 +59,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
             }
         };
         fetchCourse();
-    }, [resolvedParams.id, router]);
+    }, [params.id, router]);
 
     const update = (field: string, value: any) => setForm({ ...form, [field]: value });
     const updateInstructor = (field: string, value: string) =>
@@ -70,7 +69,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         e.preventDefault();
         setSaving(true);
         try {
-            await api.put(`/admin/courses/${resolvedParams.id}`, form);
+            await api.put(`/admin/courses/${params.id}`, form);
             toast.success('Course updated!');
         } catch (error: any) {
             toast.error(error.response?.data?.message || 'Failed to update');
@@ -82,7 +81,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     const handleDelete = async () => {
         if (!confirm('Delete this course permanently? This will also delete all its lessons.')) return;
         try {
-            await api.delete(`/admin/courses/${resolvedParams.id}`);
+            await api.delete(`/admin/courses/${params.id}`);
             toast.success('Course deleted');
             router.push('/admin/courses');
         } catch {
@@ -109,7 +108,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
             <div className="flex items-center justify-between mb-8">
                 <h1 className="text-2xl font-bold text-white">Edit Course</h1>
                 <Link
-                    href={`/admin/lessons/${resolvedParams.id}`}
+                    href={`/admin/lessons/${params.id}`}
                     className="flex items-center gap-2 glass text-primary-300 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-primary-600/15 transition-colors border border-primary-500/20"
                 >
                     <Play className="w-4 h-4" /> Manage Lessons

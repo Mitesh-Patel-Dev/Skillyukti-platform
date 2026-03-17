@@ -50,8 +50,8 @@ export default function AdminCoursesPage() {
     };
 
     const filtered = courses.filter((c) =>
-        c.title.toLowerCase().includes(search.toLowerCase()) ||
-        c.category.toLowerCase().includes(search.toLowerCase())
+        (c.title?.toLowerCase() || '').includes(search.toLowerCase()) ||
+        (c.category?.toLowerCase() || '').includes(search.toLowerCase())
     );
 
     return (

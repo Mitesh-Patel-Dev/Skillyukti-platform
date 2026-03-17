@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -26,9 +26,9 @@ const emptyForm = {
 export default function AdminLessonsPage({
     params,
 }: {
-    params: Promise<{ courseId: string }>;
+    params: { courseId: string };
 }) {
-    const { courseId } = use(params);
+    const { courseId } = params;
     const router = useRouter();
     const [course, setCourse] = useState<Course | null>(null);
     const [lessons, setLessons] = useState<Lesson[]>([]);
