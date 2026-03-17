@@ -174,15 +174,18 @@ export default function CourseDetailPage() {
 
                                     {/* Features */}
                                     <ul className="space-y-3 mt-6">
-                                        {[
-                                            `${course.totalLessons} HD video lessons`,
-                                            course.totalDuration + ' of content',
-                                            'Lifetime access',
-                                            'Downloadable resources',
-                                            'Certificate of completion',
-                                            'Community access',
-                                        ].map((feature) => (
-                                            <li key={feature} className="flex items-center gap-2 text-dark-100 text-sm">
+                                        {(course.features && course.features.length > 0
+                                            ? course.features
+                                            : [
+                                                `${course.totalLessons} HD video lessons`,
+                                                course.totalDuration + ' of content',
+                                                'Lifetime access',
+                                                'Downloadable resources',
+                                                'Certificate of completion',
+                                                'Community access',
+                                            ]
+                                        ).map((feature, i) => (
+                                            <li key={i} className="flex items-center gap-2 text-dark-100 text-sm">
                                                 <CheckCircle className="w-4 h-4 text-accent-green flex-shrink-0" />
                                                 {feature}
                                             </li>

@@ -218,20 +218,23 @@ export default function CheckoutPage() {
 
                             <div className="glass rounded-2xl p-6">
                                 <h3 className="text-white font-semibold mb-3">What you get:</h3>
-                                <ul className="space-y-2.5">
-                                    {[
-                                        'Lifetime course access',
-                                        'All video lessons',
-                                        'Downloadable resources',
-                                        'Certificate of completion',
-                                        'Community access',
-                                    ].map((item) => (
-                                        <li key={item} className="flex items-center gap-2 text-dark-100 text-sm">
-                                            <CheckCircle className="w-4 h-4 text-accent-green flex-shrink-0" />
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
+                                    <ul className="space-y-2.5">
+                                        {(course.features && course.features.length > 0
+                                            ? course.features
+                                            : [
+                                                'Lifetime course access',
+                                                'All video lessons',
+                                                'Downloadable resources',
+                                                'Certificate of completion',
+                                                'Community access',
+                                            ]
+                                        ).map((feature, i) => (
+                                            <li key={i} className="flex items-center gap-2 text-dark-100 text-sm">
+                                                <CheckCircle className="w-4 h-4 text-accent-green flex-shrink-0" />
+                                                {feature}
+                                            </li>
+                                        ))}
+                                    </ul>
                             </div>
                         </motion.div>
                     </div>

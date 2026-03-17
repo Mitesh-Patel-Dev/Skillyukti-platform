@@ -22,6 +22,7 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
         thumbnail: '',
         category: 'General',
         instructor: { name: '', bio: '', avatar: '' },
+        features: [] as string[],
         published: false,
         featured: false,
         totalDuration: '0h 0m',
@@ -42,6 +43,7 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
                         originalPrice: course.originalPrice,
                         thumbnail: course.thumbnail,
                         category: course.category,
+                        features: course.features || [],
                         instructor: course.instructor || { name: '', bio: '', avatar: '' },
                         published: course.published,
                         featured: course.featured,
@@ -142,6 +144,55 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
                                 <input type="text" value={form.totalDuration} onChange={(e) => update('totalDuration', e.target.value)} placeholder="e.g. 24h 30m" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* Features (What you'll learn) */}
+                <div className="glass rounded-2xl p-6">
+                    <div className="flex items-center justify-between mb-5">
+                        <h2 className="text-lg font-semibold text-white">Features (What you'll learn)</h2>
+                        <button
+                            type="button"
+                            onClick={() => update('features', [...form.features, ''])}
+                            className="text-primary-400 hover:text-primary-300 text-sm font-medium flex items-center gap-1"
+                        >
+                            + Add Feature
+                        </button>
+                    </div>
+                    <div className="space-y-3">
+                        {form.features.map((feature, index) => (
+                            <div key={index} className="flex items-center gap-3">
+                                <div className="w-6 h-6 rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center text-xs font-bold shrink-0">
+                                    {index + 1}
+                                </div>
+                                <input
+                                    type="text"
+                                    value={feature}
+                                    onChange={(e) => {
+                                        const newFeatures = [...form.features];
+                                        newFeatures[index] = e.target.value;
+                                        update('features', newFeatures);
+                                    }}
+                                    placeholder="e.g. Lifetime access to 50+ HD videos"
+                                    className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-2.5 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        const newFeatures = form.features.filter((_, i) => i !== index);
+                                        update('features', newFeatures);
+                                    }}
+                                    className="p-2 text-dark-300 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                            </div>
+                        ))}
+                        {form.features.length === 0 && (
+                            <p className="text-sm text-dark-300 text-center py-4 border border-dashed border-white/10 rounded-xl bg-white/[0.02]">
+                                No features added yet. Click "Add Feature" to create one.
+                            </p>
+                        )}
                     </div>
                 </div>
 

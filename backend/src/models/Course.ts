@@ -15,6 +15,7 @@ export interface ICourse extends Document {
         avatar: string;
     };
     category: string;
+    features: string[];
     lessons: mongoose.Types.ObjectId[];
     totalDuration: string;
     totalLessons: number;
@@ -72,6 +73,10 @@ const courseSchema = new Schema<ICourse>(
             type: String,
             default: 'General',
         },
+        features: [{
+            type: String,
+            trim: true,
+        }],
         lessons: [
             {
                 type: Schema.Types.ObjectId,
