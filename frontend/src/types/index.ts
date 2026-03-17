@@ -27,7 +27,7 @@ export interface Course {
         avatar: string;
     };
     category: string;
-    features: string[];
+    features?: string[];
     lessons: string[];
     curriculum?: Lesson[];
     totalDuration: string;
