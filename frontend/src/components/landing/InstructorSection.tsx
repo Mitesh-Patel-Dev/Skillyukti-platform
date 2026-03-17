@@ -21,13 +21,13 @@ export default function InstructorSection() {
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-3xl blur-3xl" />
                             {/* Photo container */}
                             <div className="relative glass rounded-3xl overflow-hidden w-full h-full flex items-center justify-center">
-                                <div className="text-center p-8">
-                                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple mx-auto mb-6 flex items-center justify-center">
-                                        <span className="text-5xl">👨‍🏫</span>
+                                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple mx-auto mb-6 flex items-center justify-center p-[2px]">
+                                        <div className="w-full h-full rounded-full overflow-hidden bg-dark-800">
+                                            <img src="/images/founder.jpg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
+                                        </div>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white">Rahul Sharma</h3>
+                                    <h3 className="text-2xl font-bold text-white">Khushabu Chauhan</h3>
                                     <p className="text-primary-300 font-medium">Founder & Lead Instructor</p>
-                                </div>
                             </div>
 
                             {/* Floating badges */}
@@ -67,13 +67,13 @@ export default function InstructorSection() {
                         </h2>
                         <div className="space-y-4 text-dark-100 leading-relaxed">
                             <p>
-                                Rahul Sharma is a serial digital entrepreneur who has built
+                                Khushabu Chauhan is a serial digital entrepreneur who has built
                                 multiple 7-figure online businesses. With over 10 years of
                                 experience in digital marketing, freelancing, and AI
-                                automation, he has trained 10,000+ students across India.
+                                automation, she has trained 10,000+ students across India.
                             </p>
                             <p>
-                                His mission is simple: to empower every aspiring
+                                Her mission is simple: to empower every aspiring
                                 entrepreneur with practical, actionable skills that
                                 actually work in today&apos;s digital economy. No fluff,
                                 no theory — just real strategies that produce real

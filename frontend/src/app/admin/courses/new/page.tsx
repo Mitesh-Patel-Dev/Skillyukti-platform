@@ -164,7 +164,7 @@ export default function NewCoursePage() {
                     <div className="grid sm:grid-cols-2 gap-4">
                         <div>
                             <label className="text-sm text-dark-100 mb-1.5 block">Instructor Name</label>
-                            <input type="text" value={form.instructor.name} onChange={(e) => updateInstructor('name', e.target.value)} placeholder="e.g. Rahul Sharma" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
+                            <input type="text" value={form.instructor.name} onChange={(e) => updateInstructor('name', e.target.value)} placeholder="e.g. Khushabu Chauhan" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
                         </div>
                         <div>
                             <label className="text-sm text-dark-100 mb-1.5 block">Avatar URL</label>
