@@ -51,7 +51,7 @@ export default function Navbar() {
                             How It Works
                         </Link>
                         <Link
-                            href="/#testimonials"
+                            href="/testimonials"
                             className="text-dark-100 hover:text-white transition-colors text-sm font-medium"
                         >
                             Testimonials
@@ -124,7 +124,7 @@ export default function Navbar() {
                         <div className="flex flex-col gap-2 p-4">
                             <Link href="/courses" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Courses</Link>
                             <Link href="/#how-it-works" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>How It Works</Link>
-                            <Link href="/#testimonials" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Testimonials</Link>
+                            <Link href="/testimonials" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Testimonials</Link>
                             {user ? (
                                 <>
                                     <Link href="/dashboard" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Dashboard</Link>

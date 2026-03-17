@@ -37,9 +37,9 @@ export default function Footer() {
                         <ul className="space-y-2.5">
                             {[
                                 { label: 'All Courses', href: '/courses' },
-                                { label: 'About Us', href: '/#instructor' },
-                                { label: 'Testimonials', href: '/#testimonials' },
-                                { label: 'Contact', href: '#' },
+                                { label: 'About Us', href: '/about' },
+                                { label: 'Testimonials', href: '/testimonials' },
+                                { label: 'Contact', href: '/contact' },
                             ].map((link) => (
                                 <li key={link.label}>
                                     <Link
@@ -61,7 +61,7 @@ export default function Footer() {
                                 { label: 'Privacy Policy', href: '/privacy-policy' },
                                 { label: 'Terms & Conditions', href: '/terms' },
                                 { label: 'Refund Policy', href: '/refund-policy' },
-                                { label: 'Disclaimer', href: '/terms' },
+                                { label: 'Disclaimer', href: '/disclaimer' },
                             ].map((link) => (
                                 <li key={link.label}>
                                     <Link
