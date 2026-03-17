@@ -20,33 +20,41 @@ export default function InstructorSection() {
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-3xl blur-3xl" />
                             {/* Photo container */}
-                            <div className="relative glass rounded-3xl overflow-hidden w-full h-full flex items-center justify-center">
-                                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple mx-auto mb-6 flex items-center justify-center p-[2px]">
-                                        <div className="w-full h-full rounded-full overflow-hidden bg-dark-800">
+                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-6">
+                                <div className="flex flex-col xl:flex-row items-center gap-6 xl:gap-8 w-full justify-center">
+                                    <div className="w-36 h-36 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple p-[3px] shrink-0 shadow-2xl">
+                                        <div className="w-full h-full rounded-full overflow-hidden bg-dark-800 border-4 border-dark-900/50">
                                             <img src="/images/founder.jpg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
                                         </div>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white">Khushabu Chauhan</h3>
-                                    <p className="text-primary-300 font-medium">Founder & Lead Instructor</p>
+                                    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+                                        <h3 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-tight">
+                                            Khushabu<br className="hidden sm:block" />Chauhan
+                                        </h3>
+                                        <p className="text-primary-300 font-semibold text-lg leading-snug">
+                                            Founder & Lead<br className="hidden sm:block" />Instructor
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Floating badges */}
                             <motion.div
                                 animate={{ y: [0, -10, 0] }}
                                 transition={{ duration: 3, repeat: Infinity }}
-                                className="absolute -top-4 -right-4 glass rounded-2xl p-3 flex items-center gap-2"
+                                className="absolute -top-6 -right-6 lg:-right-8 glass rounded-2xl px-5 py-3.5 flex items-center gap-2.5 shadow-2xl border border-white/5"
                             >
                                 <Award className="w-5 h-5 text-accent-orange" />
-                                <span className="text-sm font-semibold text-white">10+ Years</span>
+                                <span className="text-sm font-bold text-white">10+ Years</span>
                             </motion.div>
 
                             <motion.div
                                 animate={{ y: [0, 10, 0] }}
                                 transition={{ duration: 4, repeat: Infinity }}
-                                className="absolute -bottom-4 -left-4 glass rounded-2xl p-3 flex items-center gap-2"
+                                className="absolute -bottom-6 -left-6 lg:-left-8 glass rounded-2xl px-5 py-3.5 flex items-center gap-2.5 shadow-2xl border border-white/5"
                             >
                                 <Users className="w-5 h-5 text-accent-green" />
-                                <span className="text-sm font-semibold text-white">10,000+ Students</span>
+                                <span className="text-sm font-bold text-white">10,000+ Students</span>
                             </motion.div>
                         </div>
                     </motion.div>
