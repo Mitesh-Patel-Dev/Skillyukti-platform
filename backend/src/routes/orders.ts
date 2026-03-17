@@ -39,12 +39,19 @@ router.post(
                 return;
             }
 
-            // Look up referrer (prevent self-referral)
+            // Look up referrer (prevent self-referral & verify course ownership)
             let referredBy;
             if (referralCode) {
                 const referrer = await User.findOne({ referralCode: referralCode.toUpperCase() });
                 if (referrer && referrer._id.toString() !== req.user?._id.toString()) {
-                    referredBy = referrer._id;
+                    // Check if referrer is enrolled in this course
+                    const isReferrerEnrolled = referrer.enrolledCourses.some(
+                        (id) => id.toString() === courseId.toString()
+                    );
+                    
+                    if (isReferrerEnrolled) {
+                        referredBy = referrer._id;
+                    }
                 }
             }
 
