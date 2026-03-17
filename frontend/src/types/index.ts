@@ -6,6 +6,8 @@ export interface User {
     role: 'student' | 'admin';
     enrolledCourses: string[] | Course[];
     avatar?: string;
+    referralCode?: string;
+    referredBy?: string;
     createdAt: string;
 }
 
@@ -66,6 +68,7 @@ export interface Order {
     status: 'created' | 'paid' | 'failed';
     razorpayOrderId: string;
     razorpayPaymentId?: string;
+    referredBy?: string;
     createdAt: string;
 }
 
@@ -98,6 +101,7 @@ export interface AuthResponse {
     role: 'student' | 'admin';
     token: string;
     enrolledCourses?: string[];
+    referralCode?: string;
 }
 
 // ─── Razorpay Types ───
@@ -115,4 +119,35 @@ export interface AdminStats {
     totalCourses: number;
     totalOrders: number;
     totalRevenue: number;
+}
+
+// ─── Wallet Types ───
+export interface Wallet {
+    _id: string;
+    userId: string;
+    balance: number;
+    totalEarnings: number;
+    totalWithdrawn: number;
+}
+
+// ─── Wallet Transaction Types ───
+export interface WalletTransaction {
+    _id: string;
+    userId: string | User;
+    type: 'commission' | 'withdrawal';
+    amount: number;
+    status: 'completed' | 'pending';
+    orderId?: string;
+    description: string;
+    createdAt: string;
+}
+
+// ─── Withdrawal Request Types ───
+export interface WithdrawalRequest {
+    _id: string;
+    userId: string | User;
+    amount: number;
+    status: 'pending' | 'approved' | 'rejected';
+    adminNote?: string;
+    createdAt: string;
 }

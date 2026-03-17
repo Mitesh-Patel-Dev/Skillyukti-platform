@@ -10,6 +10,8 @@ import orderRoutes from './routes/orders';
 import progressRoutes from './routes/progress';
 import adminRoutes from './routes/admin';
 import testimonialRoutes from './routes/testimonials';
+import referralRoutes from './routes/referral';
+import walletRoutes from './routes/wallet';
 
 // Load environment variables
 dotenv.config();
@@ -49,6 +51,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/referral', referralRoutes);
+app.use('/api/wallet', walletRoutes);
 
 // ─── Health Check ───
 app.get('/api/health', (_req, res) => {

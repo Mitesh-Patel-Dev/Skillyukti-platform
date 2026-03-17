@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             email: data.email,
             role: data.role,
             enrolledCourses: data.enrolledCourses || [],
+            referralCode: data.referralCode,
             createdAt: new Date().toISOString(),
         };
 
@@ -53,13 +54,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // Register
     const register = async (name: string, email: string, password: string) => {
-        const { data } = await api.post<AuthResponse>('/auth/register', { name, email, password });
+        // Include referral code from localStorage if present
+        const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referralCode') : null;
+        const { data } = await api.post<AuthResponse>('/auth/register', {
+            name, email, password,
+            ...(referralCode ? { referralCode } : {}),
+        });
         const userData: User = {
             _id: data._id,
             name: data.name,
             email: data.email,
             role: data.role,
             enrolledCourses: [],
+            referralCode: data.referralCode,
             createdAt: new Date().toISOString(),
         };
 

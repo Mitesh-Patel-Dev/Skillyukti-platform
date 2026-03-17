@@ -4,7 +4,11 @@ import razorpay from '../utils/razorpay';
 import Order from '../models/Order';
 import User from '../models/User';
 import Course from '../models/Course';
+import Wallet from '../models/Wallet';
+import WalletTransaction from '../models/WalletTransaction';
 import { protect } from '../middleware/auth';
+
+const COMMISSION_RATE = 0.80; // 80% to referrer
 
 const router = Router();
 
@@ -17,7 +21,7 @@ router.post(
     protect,
     async (req: Request, res: Response): Promise<void> => {
         try {
-            const { courseId } = req.body;
+            const { courseId, referralCode } = req.body;
 
             // Get course details
             const course = await Course.findById(courseId);
@@ -33,6 +37,15 @@ router.post(
             if (isEnrolled) {
                 res.status(400).json({ message: 'You are already enrolled in this course' });
                 return;
+            }
+
+            // Look up referrer (prevent self-referral)
+            let referredBy;
+            if (referralCode) {
+                const referrer = await User.findOne({ referralCode: referralCode.toUpperCase() });
+                if (referrer && referrer._id.toString() !== req.user?._id.toString()) {
+                    referredBy = referrer._id;
+                }
             }
 
             // Create Razorpay order (amount in paise)
@@ -53,6 +66,7 @@ router.post(
                 amount: course.price,
                 razorpayOrderId: razorpayOrder.id,
                 status: 'created',
+                referredBy,
             });
 
             res.status(201).json({
@@ -112,6 +126,33 @@ router.post(
             await Course.findByIdAndUpdate(order.courseId, {
                 $inc: { enrolledCount: 1 },
             });
+
+            // ─── Commission Logic ───
+            if (order.referredBy) {
+                const commission = Math.round(order.amount * COMMISSION_RATE);
+
+                // Credit referrer's wallet
+                await Wallet.findOneAndUpdate(
+                    { userId: order.referredBy },
+                    {
+                        $inc: {
+                            balance: commission,
+                            totalEarnings: commission,
+                        },
+                    },
+                    { upsert: true }
+                );
+
+                // Create commission transaction
+                await WalletTransaction.create({
+                    userId: order.referredBy,
+                    type: 'commission',
+                    amount: commission,
+                    status: 'completed',
+                    orderId: order._id,
+                    description: `Commission from course sale (₹${order.amount})`,
+                });
+            }
 
             res.json({
                 message: 'Payment verified successfully',

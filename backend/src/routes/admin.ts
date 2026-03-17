@@ -5,6 +5,9 @@ import User from '../models/User';
 import Order from '../models/Order';
 import Testimonial from '../models/Testimonial';
 import Progress from '../models/Progress';
+import Wallet from '../models/Wallet';
+import WalletTransaction from '../models/WalletTransaction';
+import WithdrawalRequest from '../models/WithdrawalRequest';
 import { protect } from '../middleware/auth';
 import { adminOnly } from '../middleware/admin';
 
@@ -311,6 +314,136 @@ router.delete('/testimonials/:id', async (req: Request, res: Response): Promise<
     try {
         await Testimonial.findByIdAndDelete(req.params.id);
         res.json({ message: 'Testimonial deleted' });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// ═══════════════════════════════════════
+// REFERRAL & AFFILIATE MANAGEMENT
+// ═══════════════════════════════════════
+
+/**
+ * GET /api/admin/referrals
+ * Get all referral commission transactions
+ */
+router.get('/referrals', async (_req: Request, res: Response): Promise<void> => {
+    try {
+        const commissions = await WalletTransaction.find({ type: 'commission' })
+            .populate('userId', 'name email referralCode')
+            .populate('orderId', 'amount courseId')
+            .sort({ createdAt: -1 });
+
+        res.json(commissions);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+/**
+ * GET /api/admin/wallets
+ * Get all user wallets with balances
+ */
+router.get('/wallets', async (_req: Request, res: Response): Promise<void> => {
+    try {
+        const wallets = await Wallet.find({ balance: { $gt: 0 } })
+            .populate('userId', 'name email referralCode')
+            .sort({ balance: -1 });
+
+        res.json(wallets);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// ═══════════════════════════════════════
+// WITHDRAWAL MANAGEMENT
+// ═══════════════════════════════════════
+
+/**
+ * GET /api/admin/withdrawals
+ * Get all withdrawal requests
+ */
+router.get('/withdrawals', async (_req: Request, res: Response): Promise<void> => {
+    try {
+        const requests = await WithdrawalRequest.find()
+            .populate('userId', 'name email referralCode')
+            .sort({ createdAt: -1 });
+
+        res.json(requests);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+/**
+ * POST /api/admin/withdrawals/:id/approve
+ * Approve a withdrawal request
+ */
+router.post('/withdrawals/:id/approve', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const request = await WithdrawalRequest.findById(req.params.id);
+        if (!request) {
+            res.status(404).json({ message: 'Withdrawal request not found' });
+            return;
+        }
+        if (request.status !== 'pending') {
+            res.status(400).json({ message: 'Request is already processed' });
+            return;
+        }
+
+        // Deduct from wallet
+        const wallet = await Wallet.findOne({ userId: request.userId });
+        if (!wallet || wallet.balance < request.amount) {
+            res.status(400).json({ message: 'Insufficient wallet balance' });
+            return;
+        }
+
+        wallet.balance -= request.amount;
+        wallet.totalWithdrawn += request.amount;
+        await wallet.save();
+
+        // Create withdrawal transaction
+        await WalletTransaction.create({
+            userId: request.userId,
+            type: 'withdrawal',
+            amount: -request.amount,
+            status: 'completed',
+            description: `Withdrawal approved (₹${request.amount})`,
+        });
+
+        // Update request status
+        request.status = 'approved';
+        request.adminNote = req.body.adminNote || 'Approved';
+        await request.save();
+
+        res.json({ message: 'Withdrawal approved', request });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+/**
+ * POST /api/admin/withdrawals/:id/reject
+ * Reject a withdrawal request
+ */
+router.post('/withdrawals/:id/reject', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const request = await WithdrawalRequest.findById(req.params.id);
+        if (!request) {
+            res.status(404).json({ message: 'Withdrawal request not found' });
+            return;
+        }
+        if (request.status !== 'pending') {
+            res.status(400).json({ message: 'Request is already processed' });
+            return;
+        }
+
+        request.status = 'rejected';
+        request.adminNote = req.body.adminNote || 'Rejected';
+        await request.save();
+
+        res.json({ message: 'Withdrawal rejected', request });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }

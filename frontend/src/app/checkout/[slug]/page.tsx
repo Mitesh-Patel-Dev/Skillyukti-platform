@@ -60,9 +60,11 @@ export default function CheckoutPage() {
                 return;
             }
 
-            // Create order
+            // Create order (include referralCode if present)
+            const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referralCode') : null;
             const { data } = await api.post<RazorpayOrderResponse>('/orders/create', {
                 courseId: course._id,
+                ...(referralCode ? { referralCode } : {}),
             });
 
             // Open Razorpay checkout
@@ -88,6 +90,9 @@ export default function CheckoutPage() {
                             razorpayPaymentId: response.razorpay_payment_id,
                             razorpaySignature: response.razorpay_signature,
                         });
+
+                        // Clear referral code after successful purchase
+                        localStorage.removeItem('referralCode');
 
                         toast.success('Payment successful! Course unlocked.');
                         router.push('/payment-success?course=' + course.slug);

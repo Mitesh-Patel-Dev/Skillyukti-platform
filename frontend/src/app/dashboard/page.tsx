@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
     BookOpen, Play, Clock, BarChart3, ArrowRight,
-    LayoutDashboard, LogOut, Award,
+    LayoutDashboard, LogOut, Award, Link2, Wallet, Receipt, ArrowDownCircle,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/lib/api';
@@ -131,6 +131,34 @@ export default function DashboardPage() {
                             <div className="text-dark-200 text-sm">Completed</div>
                         </motion.div>
                     </div>
+
+                    {/* Affiliate Hub */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.35 }}
+                        className="mb-10"
+                    >
+                        <h2 className="text-xl font-bold text-white mb-4">Affiliate Hub</h2>
+                        <div className="grid sm:grid-cols-4 gap-3">
+                            <Link href="/dashboard/affiliate" className="glass rounded-xl p-4 card-hover flex items-center gap-3">
+                                <Link2 className="w-5 h-5 text-primary-400" />
+                                <span className="text-white text-sm font-medium">Referral Link</span>
+                            </Link>
+                            <Link href="/dashboard/wallet" className="glass rounded-xl p-4 card-hover flex items-center gap-3">
+                                <Wallet className="w-5 h-5 text-accent-green" />
+                                <span className="text-white text-sm font-medium">My Wallet</span>
+                            </Link>
+                            <Link href="/dashboard/transactions" className="glass rounded-xl p-4 card-hover flex items-center gap-3">
+                                <Receipt className="w-5 h-5 text-accent-orange" />
+                                <span className="text-white text-sm font-medium">Transactions</span>
+                            </Link>
+                            <Link href="/dashboard/withdraw" className="glass rounded-xl p-4 card-hover flex items-center gap-3">
+                                <ArrowDownCircle className="w-5 h-5 text-accent-purple" />
+                                <span className="text-white text-sm font-medium">Withdraw</span>
+                            </Link>
+                        </div>
+                    </motion.div>
 
                     {/* My Courses */}
                     <h2 className="text-xl font-bold text-white mb-6">My Courses</h2>

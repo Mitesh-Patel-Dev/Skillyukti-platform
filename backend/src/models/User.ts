@@ -9,6 +9,8 @@ export interface IUser extends Document {
     role: 'student' | 'admin';
     enrolledCourses: mongoose.Types.ObjectId[];
     avatar?: string;
+    referralCode: string;
+    referredBy?: mongoose.Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
     comparePassword(candidatePassword: string): Promise<boolean>;
@@ -52,14 +54,34 @@ const userSchema = new Schema<IUser>(
             type: String,
             default: '',
         },
+        referralCode: {
+            type: String,
+            unique: true,
+            sparse: true,
+        },
+        referredBy: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
     },
     {
         timestamps: true,
     }
 );
 
-// Hash password before saving
+// Auto-generate referral code before saving
 userSchema.pre('save', async function (next) {
+    // Generate referral code if not set
+    if (!this.referralCode) {
+        const namePart = this.name
+            .toUpperCase()
+            .replace(/[^A-Z]/g, '')
+            .slice(0, 6);
+        const randomPart = Math.floor(100 + Math.random() * 900);
+        this.referralCode = `${namePart}${randomPart}`;
+    }
+
+    // Hash password if modified
     if (!this.isModified('password')) return next();
     const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt);

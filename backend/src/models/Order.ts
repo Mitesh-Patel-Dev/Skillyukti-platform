@@ -10,6 +10,7 @@ export interface IOrder extends Document {
     razorpayOrderId: string;
     razorpayPaymentId?: string;
     razorpaySignature?: string;
+    referredBy?: mongoose.Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -49,6 +50,10 @@ const orderSchema = new Schema<IOrder>(
         },
         razorpaySignature: {
             type: String,
+        },
+        referredBy: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
         },
     },
     {

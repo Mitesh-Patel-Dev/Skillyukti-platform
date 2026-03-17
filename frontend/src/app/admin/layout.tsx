@@ -6,6 +6,7 @@ import Link from 'next/link';
 import {
     LayoutDashboard, BookOpen, GraduationCap, Users,
     CreditCard, Star, Settings, LogOut, ChevronRight,
+    Share2, Banknote,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -14,6 +15,8 @@ const sidebarLinks = [
     { href: '/admin/courses', label: 'Courses', icon: BookOpen },
     { href: '/admin/students', label: 'Students', icon: Users },
     { href: '/admin/payments', label: 'Payments', icon: CreditCard },
+    { href: '/admin/referrals', label: 'Referrals', icon: Share2 },
+    { href: '/admin/withdrawals', label: 'Withdrawals', icon: Banknote },
     { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
     { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];

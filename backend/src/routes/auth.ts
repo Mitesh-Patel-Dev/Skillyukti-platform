@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import Wallet from '../models/Wallet';
 import { protect } from '../middleware/auth';
 
 const router = Router();
@@ -20,7 +21,7 @@ const generateToken = (id: string, role: string): string => {
  */
 router.post('/register', async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, referralCode } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -29,8 +30,20 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
+        // Look up referrer by referral code
+        let referredBy;
+        if (referralCode) {
+            const referrer = await User.findOne({ referralCode: referralCode.toUpperCase() });
+            if (referrer) {
+                referredBy = referrer._id;
+            }
+        }
+
         // Create new user
-        const user = await User.create({ name, email, password });
+        const user = await User.create({ name, email, password, referredBy });
+
+        // Auto-create wallet for new user
+        await Wallet.create({ userId: user._id });
 
         // Return user data with token
         res.status(201).json({
@@ -38,6 +51,7 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
             name: user.name,
             email: user.email,
             role: user.role,
+            referralCode: user.referralCode,
             token: generateToken(user._id.toString(), user.role),
         });
     } catch (error: any) {
@@ -73,6 +87,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
             email: user.email,
             role: user.role,
             enrolledCourses: user.enrolledCourses,
+            referralCode: user.referralCode,
             token: generateToken(user._id.toString(), user.role),
         });
     } catch (error: any) {
