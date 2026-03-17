@@ -19,17 +19,17 @@ export default function InstructorSection() {
                         transition={{ duration: 0.7 }}
                         className="relative"
                     >
-                        <div className="relative w-full aspect-square max-w-md mx-auto">
+                        <div className="relative w-full aspect-[4/3] lg:aspect-square max-w-[500px] lg:max-w-[540px] mx-auto">
                             {/* Glow */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-3xl blur-3xl" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-[2.5rem] blur-3xl opacity-50" />
                             {/* Photo container */}
-                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-10 lg:p-12">
-                                <div className="flex flex-col xl:flex-row items-center gap-6 xl:gap-8 w-full justify-center">
+                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10">
+                                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full justify-center">
                                     <motion.div 
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                         onClick={() => setIsImageOpen(true)}
-                                        className="w-36 h-36 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple p-[3px] shrink-0 shadow-2xl cursor-pointer relative group"
+                                        className="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple p-[3px] shrink-0 shadow-2xl cursor-pointer relative group"
                                     >
                                         <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
                                             <span className="text-white text-sm font-semibold tracking-wider">VIEW</span>
@@ -38,13 +38,12 @@ export default function InstructorSection() {
                                             <img src="/images/founder.jpg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
                                         </div>
                                     </motion.div>
-                                    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+                                    <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
                                         <h3 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-tight whitespace-nowrap">
                                             Khushabu Chauhan
                                         </h3>
-                                        <div className="hidden sm:block w-px h-12 bg-white/10"></div>
-                                        <p className="text-primary-300 font-semibold text-lg leading-snug whitespace-nowrap">
-                                            Founder & <br className="hidden xl:block" />Lead Instructor
+                                        <p className="text-primary-300 font-medium text-lg sm:text-xl mt-2 whitespace-nowrap">
+                                            Founder & Lead Instructor
                                         </p>
                                     </div>
                                 </div>
