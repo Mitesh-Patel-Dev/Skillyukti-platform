@@ -68,6 +68,22 @@ router.post('/courses', async (req: Request, res: Response): Promise<void> => {
  */
 router.put('/courses/:id', async (req: Request, res: Response): Promise<void> => {
     try {
+        if (req.body.title) {
+            let baseSlug = req.body.title
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+            
+            // Handle duplicate slugs by appending a number
+            let slug = baseSlug;
+            let counter = 1;
+            while (await Course.findOne({ slug, _id: { $ne: req.params.id } })) {
+                counter++;
+                slug = `${baseSlug}-${counter}`;
+            }
+            req.body.slug = slug;
+        }
+
         const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true,
