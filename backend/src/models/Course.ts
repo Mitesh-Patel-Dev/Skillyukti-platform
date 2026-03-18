@@ -9,6 +9,7 @@ export interface ICourse extends Document {
     price: number;
     originalPrice: number;
     thumbnail: string;
+    mobileThumbnail: string;
     instructor: {
         name: string;
         bio: string;
@@ -63,6 +64,10 @@ const courseSchema = new Schema<ICourse>(
         thumbnail: {
             type: String,
             default: '/images/course-placeholder.jpg',
+        },
+        mobileThumbnail: {
+            type: String,
+            default: '',
         },
         instructor: {
             name: { type: String, default: 'Instructor' },

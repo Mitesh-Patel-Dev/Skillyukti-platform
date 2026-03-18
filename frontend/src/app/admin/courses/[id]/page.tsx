@@ -20,6 +20,7 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
         price: 0,
         originalPrice: 0,
         thumbnail: '',
+        mobileThumbnail: '',
         category: 'General',
         instructor: { name: '', bio: '', avatar: '' },
         features: [] as string[],
@@ -42,6 +43,7 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
                         price: course.price,
                         originalPrice: course.originalPrice,
                         thumbnail: course.thumbnail,
+                        mobileThumbnail: course.mobileThumbnail || '',
                         category: course.category,
                         features: course.features || [],
                         instructor: course.instructor || { name: '', bio: '', avatar: '' },
@@ -213,13 +215,28 @@ export default function EditCoursePage({ params }: { params: { id: string } }) {
 
                 {/* Thumbnail */}
                 <div className="glass rounded-2xl p-6">
-                    <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2"><Image className="w-5 h-5 text-primary-400" /> Thumbnail</h2>
-                    <input type="text" value={form.thumbnail} onChange={(e) => update('thumbnail', e.target.value)} placeholder="https://your-cdn.com/image.jpg" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
-                    {form.thumbnail && (
-                        <div className="mt-4">
-                            <img src={form.thumbnail} alt="Preview" className="w-40 h-24 object-cover rounded-lg border border-white/10" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                    <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2"><Image className="w-5 h-5 text-primary-400" /> Thumbnails</h2>
+                    <div className="space-y-6">
+                        <div>
+                            <label className="text-sm text-dark-100 mb-1.5 flex items-center gap-2">Desktop Thumbnail URL (Fallback if no mobile)</label>
+                            <input type="text" value={form.thumbnail} onChange={(e) => update('thumbnail', e.target.value)} placeholder="https://your-cdn.com/desktop-image.jpg" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
+                            {form.thumbnail && (
+                                <div className="mt-3">
+                                    <img src={form.thumbnail} alt="Preview Desktop" className="w-40 h-24 object-cover rounded-lg border border-white/10" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                                </div>
+                            )}
                         </div>
-                    )}
+                        <div>
+                            <label className="text-sm text-dark-100 mb-1.5 flex items-center gap-2">Mobile Thumbnail URL (Optional)</label>
+                            <input type="text" value={form.mobileThumbnail} onChange={(e) => update('mobileThumbnail', e.target.value)} placeholder="https://your-cdn.com/mobile-image.jpg" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
+                            <p className="text-dark-400 text-xs mt-1.5">This image will be used on smartphones. If empty, desktop thumbnail will be used.</p>
+                            {form.mobileThumbnail && (
+                                <div className="mt-3">
+                                    <img src={form.mobileThumbnail} alt="Preview Mobile" className="h-32 object-contain aspect-[3/4] rounded-lg border border-white/10 bg-dark-800" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Instructor */}

@@ -21,6 +21,7 @@ export interface Course {
     price: number;
     originalPrice: number;
     thumbnail: string;
+    mobileThumbnail?: string;
     instructor: {
         name: string;
         bio: string;

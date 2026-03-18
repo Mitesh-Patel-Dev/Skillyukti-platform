@@ -47,16 +47,27 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                 <div className="glass card-hover rounded-2xl overflow-hidden group h-full flex flex-col">
                                     {/* Thumbnail */}
                                     <div className="relative h-44 bg-gradient-to-br from-primary-900/50 to-dark-700 overflow-hidden">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 to-accent-purple/20" />
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <span className="text-4xl">
-                                                {course.category === 'Digital Marketing' && '📊'}
-                                                {course.category === 'Freelancing' && '💼'}
-                                                {course.category === 'AI & Technology' && '🤖'}
-                                                {course.category === 'E-commerce' && '🛒'}
-                                                {!['Digital Marketing', 'Freelancing', 'AI & Technology', 'E-commerce'].includes(course.category) && '📚'}
-                                            </span>
-                                        </div>
+                                        {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' ? (
+                                            <>
+                                                {course.mobileThumbnail && (
+                                                    <img src={course.mobileThumbnail} alt={course.title} className="md:hidden absolute inset-0 w-full h-full object-cover" />
+                                                )}
+                                                <img src={course.thumbnail} alt={course.title} className={`absolute inset-0 w-full h-full object-cover ${course.mobileThumbnail ? 'hidden md:block' : ''}`} />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 to-accent-purple/20" />
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <span className="text-4xl">
+                                                        {course.category === 'Digital Marketing' && '📊'}
+                                                        {course.category === 'Freelancing' && '💼'}
+                                                        {course.category === 'AI & Technology' && '🤖'}
+                                                        {course.category === 'E-commerce' && '🛒'}
+                                                        {!['Digital Marketing', 'Freelancing', 'AI & Technology', 'E-commerce'].includes(course.category) && '📚'}
+                                                    </span>
+                                                </div>
+                                            </>
+                                        )}
                                         {/* Badge */}
                                         <div className="absolute top-3 left-3">
                                             <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-primary-600/80 text-white backdrop-blur-sm">
