@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Save, Image, User, Trash2 } from 'lucide-react';
+import ImageUpload from '@/components/admin/ImageUpload';
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
@@ -147,26 +148,19 @@ export default function NewCoursePage() {
                 {/* Thumbnail */}
                 <div className="glass rounded-2xl p-6">
                     <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2"><Image className="w-5 h-5 text-primary-400" /> Thumbnails</h2>
-                    <div className="space-y-6">
-                        <div>
-                            <label className="text-sm text-dark-100 mb-1.5 flex items-center gap-2">Desktop Thumbnail URL (Fallback if no mobile)</label>
-                            <input type="text" value={form.thumbnail} onChange={(e) => update('thumbnail', e.target.value)} placeholder="https://your-cdn.com/desktop-image.jpg" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
-                            {form.thumbnail && (
-                                <div className="mt-3">
-                                    <img src={form.thumbnail} alt="Preview Desktop" className="w-40 h-24 object-cover rounded-lg border border-white/10" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                                </div>
-                            )}
-                        </div>
-                        <div>
-                            <label className="text-sm text-dark-100 mb-1.5 flex items-center gap-2">Mobile Thumbnail URL (Optional)</label>
-                            <input type="text" value={form.mobileThumbnail} onChange={(e) => update('mobileThumbnail', e.target.value)} placeholder="https://your-cdn.com/mobile-image.jpg" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
-                            <p className="text-dark-400 text-xs mt-1.5">This image will be used on smartphones (vertical aspect ratio). If empty, desktop thumbnail will be used.</p>
-                            {form.mobileThumbnail && (
-                                <div className="mt-3">
-                                    <img src={form.mobileThumbnail} alt="Preview Mobile" className="h-32 object-contain aspect-[3/4] rounded-lg border border-white/10 bg-dark-800" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                                </div>
-                            )}
-                        </div>
+                    <div className="space-y-8">
+                        <ImageUpload 
+                            label="Desktop Thumbnail (Fallback if no mobile)"
+                            description="Upload your 16:9 thumbnail image."
+                            value={form.thumbnail} 
+                            onChange={(url) => update('thumbnail', url)} 
+                        />
+                        <ImageUpload 
+                            label="Mobile Thumbnail URL (Optional)"
+                            description="This image will be used on smartphones (vertical aspect ratio). If empty, desktop thumbnail will be used."
+                            value={form.mobileThumbnail} 
+                            onChange={(url) => update('mobileThumbnail', url)} 
+                        />
                     </div>
                 </div>
 
@@ -178,9 +172,13 @@ export default function NewCoursePage() {
                             <label className="text-sm text-dark-100 mb-1.5 block">Instructor Name</label>
                             <input type="text" value={form.instructor.name} onChange={(e) => updateInstructor('name', e.target.value)} placeholder="e.g. Khushabu Chauhan" className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
                         </div>
-                        <div>
-                            <label className="text-sm text-dark-100 mb-1.5 block">Avatar URL</label>
-                            <input type="text" value={form.instructor.avatar} onChange={(e) => updateInstructor('avatar', e.target.value)} placeholder="https://..." className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all" />
+                        <div className="sm:col-span-2 mt-4 space-y-4">
+                            <ImageUpload 
+                                label="Instructor Avatar URL"
+                                description="Upload a square profile picture."
+                                value={form.instructor.avatar} 
+                                onChange={(url) => updateInstructor('avatar', url)} 
+                            />
                         </div>
                         <div className="sm:col-span-2">
                             <label className="text-sm text-dark-100 mb-1.5 block">Bio</label>
