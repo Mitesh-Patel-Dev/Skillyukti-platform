@@ -136,7 +136,7 @@ export default function CoursesPage() {
                                 >
                                     <Link href={`/courses/${course.slug}`}>
                                         <div className="glass card-hover rounded-2xl overflow-hidden group h-full flex flex-col">
-                                            <div className={`relative overflow-hidden bg-gradient-to-br from-primary-900/50 to-dark-700 ${course.mobileThumbnail ? 'aspect-[4/5] sm:h-48 sm:aspect-auto' : 'h-48'}`}>
+                                            <div className={`relative overflow-hidden bg-gradient-to-br from-primary-900/50 to-dark-700 ${course.mobileThumbnail ? 'aspect-[4/5] md:h-48 md:aspect-auto' : 'h-48'}`}>
                                                 {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' ? (
                                                     <>
                                                         {course.mobileThumbnail && (
