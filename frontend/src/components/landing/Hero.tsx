@@ -9,9 +9,9 @@ export default function Hero() {
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Background Effects */}
             <div className="absolute inset-0 bg-hero-gradient" />
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-600/20 rounded-full blur-[120px] animate-pulse-slow" />
-            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent-purple/15 rounded-full blur-[100px] animate-pulse-slow" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-500/5 rounded-full blur-[150px]" />
+            <div className="absolute top-1/4 left-1/4 max-w-[384px] w-[60vw] h-96 bg-primary-600/20 rounded-full blur-[120px] animate-pulse-slow" />
+            <div className="absolute bottom-1/4 right-1/4 max-w-[320px] w-[50vw] h-80 bg-accent-purple/15 rounded-full blur-[100px] animate-pulse-slow" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[90vw] w-[600px] h-[600px] bg-primary-500/5 rounded-full blur-[150px]" />
 
             {/* Grid Pattern */}
             <div

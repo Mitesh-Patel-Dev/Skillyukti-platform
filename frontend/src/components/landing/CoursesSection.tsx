@@ -12,7 +12,7 @@ interface CoursesSectionProps {
 export default function CoursesSection({ courses }: CoursesSectionProps) {
     return (
         <section className="py-24 relative" id="courses">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
