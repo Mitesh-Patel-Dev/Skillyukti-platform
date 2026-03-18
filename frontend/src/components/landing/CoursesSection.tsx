@@ -46,7 +46,7 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                             <Link href={`/courses/${course.slug}`}>
                                 <div className="glass card-hover rounded-2xl overflow-hidden group h-full flex flex-col">
                                     {/* Thumbnail */}
-                                    <div className="relative h-44 bg-gradient-to-br from-primary-900/50 to-dark-700 overflow-hidden">
+                                    <div className={`relative overflow-hidden bg-gradient-to-br from-primary-900/50 to-dark-700 ${course.mobileThumbnail ? 'aspect-[4/5] sm:h-48 sm:aspect-auto' : 'h-48'}`}>
                                         {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' ? (
                                             <>
                                                 {course.mobileThumbnail && (
