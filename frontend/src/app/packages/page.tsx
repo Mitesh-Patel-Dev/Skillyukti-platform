@@ -40,15 +40,6 @@ export default function PackagesPage() {
         };
 
         fetchPackages();
-
-        // Capture referral code if present in URL
-        if (typeof window !== 'undefined') {
-            const params = new URLSearchParams(window.location.search);
-            const ref = params.get('ref');
-            if (ref) {
-                localStorage.setItem('referralCode', ref.toUpperCase());
-            }
-        }
     }, []);
 
     const handleBuyNow = async (pkg: Package) => {
@@ -69,8 +60,8 @@ export default function PackagesPage() {
                 return;
             }
 
-            // Create Order
-            const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referralCode') : null;
+            // Create order (include referralCode if present)
+            const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referral_code') : null;
             const { data } = await api.post('/payment/create-order', {
                 productId: pkg._id,
                 ...(referralCode ? { referralCode } : {}),
@@ -105,7 +96,7 @@ export default function PackagesPage() {
                         toast.success('Payment successful! Package unlocked.', { id: 'verify-payment' });
                         
                         // Clear referral code after successful purchase
-                        localStorage.removeItem('referralCode');
+                        localStorage.removeItem('referral_code');
                         
                         // Redirect to success page or dashboard
                         router.push('/dashboard/courses');

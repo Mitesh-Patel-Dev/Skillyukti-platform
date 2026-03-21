@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Register
     const register = async (name: string, email: string, password: string) => {
         // Include referral code from localStorage if present
-        const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referralCode') : null;
+        const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referral_code') : null;
         const { data } = await api.post<AuthResponse>('/auth/register', {
             name, email, password,
             ...(referralCode ? { referralCode } : {}),

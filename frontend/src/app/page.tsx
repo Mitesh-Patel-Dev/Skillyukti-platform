@@ -17,15 +17,6 @@ export default function HomePage() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
     useEffect(() => {
-        // ─── Capture referral code from URL ───
-        if (typeof window !== 'undefined') {
-            const params = new URLSearchParams(window.location.search);
-            const ref = params.get('ref');
-            if (ref) {
-                localStorage.setItem('referralCode', ref.toUpperCase());
-            }
-        }
-
         const fetchData = async () => {
             try {
                 const [coursesRes, testimonialsRes] = await Promise.all([

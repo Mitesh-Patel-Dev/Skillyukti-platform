@@ -2,10 +2,15 @@
 
 import { AuthProvider } from '@/context/AuthContext';
 import { Toaster } from 'react-hot-toast';
+import ReferralTracker from '@/components/common/ReferralTracker';
+import { Suspense } from 'react';
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <AuthProvider>
+            <Suspense fallback={null}>
+                <ReferralTracker />
+            </Suspense>
             {children}
             <Toaster
                 position="top-right"

@@ -67,7 +67,7 @@ export default function CheckoutPage() {
             }
 
             // Create order (include referralCode if present)
-            const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referralCode') : null;
+            const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referral_code') : null;
             const { data } = await api.post<RazorpayOrderResponse>('/orders/create', {
                 courseId: course._id,
                 ...(referralCode ? { referralCode } : {}),
@@ -98,7 +98,7 @@ export default function CheckoutPage() {
                         });
 
                         // Clear referral code after successful purchase
-                        localStorage.removeItem('referralCode');
+                        localStorage.removeItem('referral_code');
 
                         toast.success('Payment successful! Course unlocked.');
                         router.push('/payment-success?course=' + course.slug);
