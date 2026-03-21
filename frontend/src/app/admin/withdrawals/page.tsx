@@ -108,6 +108,7 @@ export default function AdminWithdrawalsPage() {
                             <tr className="border-b border-white/5">
                                 <th className="text-left text-dark-200 text-xs font-medium uppercase tracking-wider py-4 px-6">User</th>
                                 <th className="text-left text-dark-200 text-xs font-medium uppercase tracking-wider py-4 px-6">Amount</th>
+                                <th className="text-left text-dark-200 text-xs font-medium uppercase tracking-wider py-4 px-6">Payout Details</th>
                                 <th className="text-left text-dark-200 text-xs font-medium uppercase tracking-wider py-4 px-6">Date</th>
                                 <th className="text-left text-dark-200 text-xs font-medium uppercase tracking-wider py-4 px-6">Status</th>
                                 <th className="text-left text-dark-200 text-xs font-medium uppercase tracking-wider py-4 px-6">Actions</th>
@@ -124,6 +125,21 @@ export default function AdminWithdrawalsPage() {
                                         </td>
                                         <td className="py-4 px-6">
                                             <span className="text-white font-semibold">₹{req.amount.toLocaleString()}</span>
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            {req.paymentMethod === 'upi' ? (
+                                                <div className="flex flex-col">
+                                                    <span className="text-[10px] text-primary-400 uppercase font-bold tracking-wider mb-0.5">UPI ID</span>
+                                                    <span className="text-white text-sm">{req.upiId}</span>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col gap-0.5">
+                                                    <span className="text-[10px] text-accent-green uppercase font-bold tracking-wider mb-0.5">BANK TRANSFER</span>
+                                                    <div className="text-white text-sm font-medium">{req.accountHolderName}</div>
+                                                    <div className="text-dark-300 text-xs">Acc: {req.accountNumber}</div>
+                                                    <div className="text-dark-400 text-[10px]">IFSC: {req.ifscCode}</div>
+                                                </div>
+                                            )}
                                         </td>
                                         <td className="py-4 px-6 text-dark-300 text-sm">
                                             {new Date(req.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}

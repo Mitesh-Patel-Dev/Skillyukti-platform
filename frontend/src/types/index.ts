@@ -150,6 +150,11 @@ export interface WithdrawalRequest {
     userId: string | User;
     amount: number;
     status: 'pending' | 'approved' | 'rejected';
+    paymentMethod: 'upi' | 'bank';
+    upiId?: string;
+    accountHolderName?: string;
+    accountNumber?: string;
+    ifscCode?: string;
     adminNote?: string;
     createdAt: string;
 }

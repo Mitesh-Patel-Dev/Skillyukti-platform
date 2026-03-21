@@ -5,6 +5,11 @@ export interface IWithdrawalRequest extends Document {
     userId: mongoose.Types.ObjectId;
     amount: number;
     status: 'pending' | 'approved' | 'rejected';
+    paymentMethod: 'upi' | 'bank';
+    upiId?: string;
+    accountHolderName?: string;
+    accountNumber?: string;
+    ifscCode?: string;
     adminNote?: string;
     createdAt: Date;
     updatedAt: Date;
@@ -27,6 +32,27 @@ const withdrawalRequestSchema = new Schema<IWithdrawalRequest>(
             type: String,
             enum: ['pending', 'approved', 'rejected'],
             default: 'pending',
+        },
+        paymentMethod: {
+            type: String,
+            enum: ['upi', 'bank'],
+            required: true,
+        },
+        upiId: {
+            type: String,
+            trim: true,
+        },
+        accountHolderName: {
+            type: String,
+            trim: true,
+        },
+        accountNumber: {
+            type: String,
+            trim: true,
+        },
+        ifscCode: {
+            type: String,
+            trim: true,
         },
         adminNote: {
             type: String,

@@ -50,11 +50,37 @@ router.get('/transactions', async (req: Request, res: Response): Promise<void> =
  */
 router.post('/withdraw', async (req: Request, res: Response): Promise<void> => {
     try {
-        const { amount } = req.body;
+        const {
+            amount,
+            paymentMethod,
+            upiId,
+            accountHolderName,
+            accountNumber,
+            ifscCode,
+        } = req.body;
 
         if (!amount || amount <= 0) {
             res.status(400).json({ message: 'Invalid withdrawal amount' });
             return;
+        }
+
+        // Validate payment method
+        if (!['upi', 'bank'].includes(paymentMethod)) {
+            res.status(400).json({ message: 'Please select a valid payment method' });
+            return;
+        }
+
+        // Method-specific validation
+        if (paymentMethod === 'upi' && !upiId) {
+            res.status(400).json({ message: 'UPI ID is required' });
+            return;
+        }
+
+        if (paymentMethod === 'bank') {
+            if (!accountHolderName || !accountNumber || !ifscCode) {
+                res.status(400).json({ message: 'All bank details are required' });
+                return;
+            }
         }
 
         // Check wallet balance
@@ -78,6 +104,11 @@ router.post('/withdraw', async (req: Request, res: Response): Promise<void> => {
         const request = await WithdrawalRequest.create({
             userId: req.user?._id,
             amount,
+            paymentMethod,
+            ...(paymentMethod === 'upi' ? { upiId } : {}),
+            ...(paymentMethod === 'bank'
+                ? { accountHolderName, accountNumber, ifscCode }
+                : {}),
         });
 
         res.status(201).json({
