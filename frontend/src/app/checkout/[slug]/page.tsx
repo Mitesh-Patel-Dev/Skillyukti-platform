@@ -21,7 +21,7 @@ declare global {
 export default function CheckoutPage() {
     const params = useParams();
     const router = useRouter();
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const [course, setCourse] = useState<Course | null>(null);
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false);
@@ -29,7 +29,7 @@ export default function CheckoutPage() {
     const slug = params.slug as string;
 
     useEffect(() => {
-        if (!user) {
+        if (!authLoading && !user) {
             router.push('/login');
             return;
         }
@@ -45,8 +45,14 @@ export default function CheckoutPage() {
                 setLoading(false);
             }
         };
-        fetchCourse();
-    }, [slug, user, router]);
+        
+        if (user) {
+            fetchCourse();
+        } else if (!authLoading) {
+            // We've been redirected to login as per above, but let's set loading to false here anyway to hide spinner
+            setLoading(false);
+        }
+    }, [slug, user, authLoading, router]);
 
     const handlePayment = async () => {
         if (!course || !user) return;
