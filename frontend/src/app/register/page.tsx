@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, UserPlus, BookOpen } from 'lucide-react';
+import { Mail, Lock, User, UserPlus, BookOpen, Phone } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import toast from 'react-hot-toast';
 
 export default function RegisterPage() {
     const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -22,9 +23,13 @@ export default function RegisterPage() {
             toast.error('Password must be at least 6 characters');
             return;
         }
+        if (phone.length < 10) {
+            toast.error('Please enter a valid phone number');
+            return;
+        }
         setLoading(true);
         try {
-            await register(name, email, password);
+            await register(name, phone, email, password);
             toast.success('Account created successfully!');
             router.push('/dashboard');
         } catch (error: any) {
@@ -67,6 +72,21 @@ export default function RegisterPage() {
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     placeholder="John Doe"
+                                    required
+                                    className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder-dark-300 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-medium text-dark-100 mb-1.5 block">Phone Number</label>
+                            <div className="relative">
+                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-300" />
+                                <input
+                                    type="tel"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    placeholder="9876543210"
                                     required
                                     className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder-dark-300 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all"
                                 />

@@ -4,6 +4,7 @@ export interface User {
     name: string;
     email: string;
     role: 'student' | 'admin';
+    phone: string;
     enrolledCourses: string[] | Course[];
     avatar?: string;
     referralCode?: string;

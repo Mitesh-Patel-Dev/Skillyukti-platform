@@ -21,7 +21,12 @@ const generateToken = (id: string, role: string): string => {
  */
 router.post('/register', async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, email, password, referralCode } = req.body;
+        const { name, phone, email, password, referralCode } = req.body;
+
+        if (!phone) {
+            res.status(400).json({ message: 'Phone number is required' });
+            return;
+        }
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -40,7 +45,7 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
         }
 
         // Create new user
-        const user = await User.create({ name, email, password, referredBy });
+        const user = await User.create({ name, phone, email, password, referredBy });
 
         // Auto-create wallet for new user
         await Wallet.create({ userId: user._id });
@@ -86,6 +91,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
             name: user.name,
             email: user.email,
             role: user.role,
+            phone: user.phone,
             enrolledCourses: user.enrolledCourses,
             referralCode: user.referralCode,
             token: generateToken(user._id.toString(), user.role),

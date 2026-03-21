@@ -122,6 +122,9 @@ export default function AdminWithdrawalsPage() {
                                         <td className="py-4 px-6">
                                             <div className="text-white text-sm font-medium">{reqUser?.name || '—'}</div>
                                             <div className="text-dark-400 text-xs">{reqUser?.email || ''}</div>
+                                            {reqUser?.phone && (
+                                                <div className="text-primary-400 text-[10px] mt-0.5 font-medium">{reqUser.phone}</div>
+                                            )}
                                         </td>
                                         <td className="py-4 px-6">
                                             <span className="text-white font-semibold">₹{req.amount.toLocaleString()}</span>
@@ -130,15 +133,17 @@ export default function AdminWithdrawalsPage() {
                                             {req.paymentMethod === 'upi' ? (
                                                 <div className="flex flex-col">
                                                     <span className="text-[10px] text-primary-400 uppercase font-bold tracking-wider mb-0.5">UPI ID</span>
-                                                    <span className="text-white text-sm">{req.upiId}</span>
+                                                    <span className="text-white text-sm">{req.upiId || 'Not provided'}</span>
                                                 </div>
-                                            ) : (
+                                            ) : req.paymentMethod === 'bank' ? (
                                                 <div className="flex flex-col gap-0.5">
                                                     <span className="text-[10px] text-accent-green uppercase font-bold tracking-wider mb-0.5">BANK TRANSFER</span>
-                                                    <div className="text-white text-sm font-medium">{req.accountHolderName}</div>
-                                                    <div className="text-dark-300 text-xs">Acc: {req.accountNumber}</div>
-                                                    <div className="text-dark-400 text-[10px]">IFSC: {req.ifscCode}</div>
+                                                    <div className="text-white text-sm font-medium">{req.accountHolderName || 'Not provided'}</div>
+                                                    <div className="text-dark-300 text-xs">Acc: {req.accountNumber || '—'}</div>
+                                                    <div className="text-dark-400 text-[10px]">IFSC: {req.ifscCode || '—'}</div>
                                                 </div>
+                                            ) : (
+                                                <div className="text-dark-500 text-xs italic">Legacy Request (No details)</div>
                                             )}
                                         </td>
                                         <td className="py-4 px-6 text-dark-300 text-sm">

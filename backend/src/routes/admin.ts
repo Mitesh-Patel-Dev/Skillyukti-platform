@@ -384,7 +384,7 @@ router.get('/wallets', async (_req: Request, res: Response): Promise<void> => {
 router.get('/withdrawals', async (_req: Request, res: Response): Promise<void> => {
     try {
         const requests = await WithdrawalRequest.find()
-            .populate('userId', 'name email referralCode')
+            .populate('userId', 'name email phone referralCode')
             .sort({ createdAt: -1 });
 
         res.json(requests);

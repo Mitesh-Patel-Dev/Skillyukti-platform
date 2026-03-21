@@ -9,7 +9,7 @@ interface AuthContextType {
     token: string | null;
     loading: boolean;
     login: (email: string, password: string) => Promise<void>;
-    register: (name: string, email: string, password: string) => Promise<void>;
+    register: (name: string, phone: string, email: string, password: string) => Promise<void>;
     logout: () => void;
     isEnrolled: (courseId: string) => boolean;
 }
@@ -35,12 +35,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // Login
     const login = async (email: string, password: string) => {
-        const { data } = await api.post<AuthResponse>('/auth/login', { email, password });
+        const { data } = await api.post<AuthResponse & { phone: string }>('/auth/login', { email, password });
         const userData: User = {
             _id: data._id,
             name: data.name,
             email: data.email,
             role: data.role,
+            phone: data.phone,
             enrolledCourses: data.enrolledCourses || [],
             referralCode: data.referralCode,
             createdAt: new Date().toISOString(),
@@ -53,11 +54,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     // Register
-    const register = async (name: string, email: string, password: string) => {
+    const register = async (name: string, phone: string, email: string, password: string) => {
         // Include referral code from localStorage if present
         const referralCode = typeof window !== 'undefined' ? localStorage.getItem('referral_code') : null;
-        const { data } = await api.post<AuthResponse>('/auth/register', {
-            name, email, password,
+        const { data } = await api.post<AuthResponse & { phone: string }>('/auth/register', {
+            name, phone, email, password,
             ...(referralCode ? { referralCode } : {}),
         });
         const userData: User = {
@@ -65,7 +66,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             name: data.name,
             email: data.email,
             role: data.role,
-            enrolledCourses: [],
+            phone: data.phone,
+            enrolledCourses: data.enrolledCourses || [],
             referralCode: data.referralCode,
             createdAt: new Date().toISOString(),
         };

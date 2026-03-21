@@ -7,6 +7,7 @@ export interface IUser extends Document {
     email: string;
     password: string;
     role: 'student' | 'admin';
+    phone: string;
     enrolledCourses: mongoose.Types.ObjectId[];
     enrolledPackages: mongoose.Types.ObjectId[];
     avatar?: string;
@@ -25,6 +26,11 @@ const userSchema = new Schema<IUser>(
             required: [true, 'Name is required'],
             trim: true,
             maxlength: [50, 'Name cannot exceed 50 characters'],
+        },
+        phone: {
+            type: String,
+            required: [true, 'Phone number is required'],
+            trim: true,
         },
         email: {
             type: String,
