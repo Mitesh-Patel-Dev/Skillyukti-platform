@@ -81,7 +81,7 @@ router.post(
                 razorpayOrderId: razorpayOrder.id,
                 amount: razorpayOrder.amount,
                 currency: razorpayOrder.currency,
-                keyId: process.env.RAZORPAY_KEY_ID || 'rzp_live_STqJSGOU03jpwL',
+                keyId: process.env.RAZORPAY_KEY_ID || 'rzp_test_STr5kdqZk9vaq6',
             });
         } catch (error: any) {
             res.status(500).json({ message: error.message || 'Server error' });
@@ -103,7 +103,7 @@ router.post(
             // Verify signature
             const body = razorpayOrderId + '|' + razorpayPaymentId;
             const expectedSignature = crypto
-                .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || 'J1mFCkV04L7JpmOkjc6M62Ot')
+                .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || '0ko4dQBap8tbFdExoB8Nurq9')
                 .update(body)
                 .digest('hex');
 

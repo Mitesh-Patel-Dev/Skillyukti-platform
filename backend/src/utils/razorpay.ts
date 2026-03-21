@@ -8,8 +8,8 @@ dotenv.config();
  * Uses test keys by default for development.
  */
 const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID || 'rzp_live_STqJSGOU03jpwL',
-    key_secret: process.env.RAZORPAY_KEY_SECRET || 'J1mFCkV04L7JpmOkjc6M62Ot',
+    key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_STr5kdqZk9vaq6',
+    key_secret: process.env.RAZORPAY_KEY_SECRET || '0ko4dQBap8tbFdExoB8Nurq9',
 });
 
 export default razorpay;
