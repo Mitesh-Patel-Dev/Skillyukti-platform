@@ -12,6 +12,7 @@ import adminRoutes from './routes/admin';
 import testimonialRoutes from './routes/testimonials';
 import referralRoutes from './routes/referral';
 import walletRoutes from './routes/wallet';
+import paymentRoutes from './routes/payment';
 
 // Load environment variables
 dotenv.config();
@@ -53,6 +54,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/referral', referralRoutes);
 app.use('/api/wallet', walletRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // ─── Health Check ───
 app.get('/api/health', (_req, res) => {

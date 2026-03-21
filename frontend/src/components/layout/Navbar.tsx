@@ -39,6 +39,12 @@ export default function Navbar() {
                     {/* Desktop Nav */}
                     <div className="hidden lg:flex items-center gap-8">
                         <Link
+                            href="/packages"
+                            className="text-dark-100 hover:text-white transition-colors text-sm font-medium"
+                        >
+                            Packages
+                        </Link>
+                        <Link
                             href="/courses"
                             className="text-dark-100 hover:text-white transition-colors text-sm font-medium"
                         >
@@ -122,6 +128,7 @@ export default function Navbar() {
                         className="lg:hidden glass-strong border-t border-white/5"
                     >
                         <div className="flex flex-col gap-2 p-4">
+                            <Link href="/packages" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Packages</Link>
                             <Link href="/courses" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Courses</Link>
                             <Link href="/#how-it-works" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>How It Works</Link>
                             <Link href="/testimonials" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Testimonials</Link>

@@ -3,7 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 // ─── Order Interface ───
 export interface IOrder extends Document {
     userId: mongoose.Types.ObjectId;
-    courseId: mongoose.Types.ObjectId;
+    courseId?: mongoose.Types.ObjectId;
+    packageId?: mongoose.Types.ObjectId;
     amount: number;
     currency: string;
     status: 'created' | 'paid' | 'failed';
@@ -26,7 +27,10 @@ const orderSchema = new Schema<IOrder>(
         courseId: {
             type: Schema.Types.ObjectId,
             ref: 'Course',
-            required: true,
+        },
+        packageId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Package',
         },
         amount: {
             type: Number,

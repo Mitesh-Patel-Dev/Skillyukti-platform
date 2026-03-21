@@ -8,6 +8,7 @@ import Progress from '../models/Progress';
 import Wallet from '../models/Wallet';
 import WalletTransaction from '../models/WalletTransaction';
 import WithdrawalRequest from '../models/WithdrawalRequest';
+import Package from '../models/Package';
 import { protect } from '../middleware/auth';
 import { adminOnly } from '../middleware/admin';
 
@@ -462,6 +463,34 @@ router.post('/withdrawals/:id/reject', async (req: Request, res: Response): Prom
         res.json({ message: 'Withdrawal rejected', request });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
+    }
+});
+
+/**
+ * POST /api/admin/seed-packages
+ * Seed the 5 standard Skillyukti packages
+ */
+router.post('/seed-packages', protect, adminOnly, async (req: Request, res: Response): Promise<void> => {
+    try {
+        const packagesToSeed = [
+            { name: 'Starter Package', price: 499, description: 'Kickstart your learning journey.', features: ['Access to basic courses', 'Community Support'] },
+            { name: 'Basic Package', price: 999, description: 'Essential skills for freelancers.', features: ['Access to basic courses', 'Freelancing modules', 'Community Support'] },
+            { name: 'Standard Package', price: 1999, description: 'Comprehensive training.', features: ['Access to standard courses', 'Live Q&A sessions', 'Community Support'] },
+            { name: 'Pro Package', price: 3999, description: 'Advanced strategies for pros.', features: ['Access to all advanced courses', '1-on-1 Mentorship', 'Community Support'] },
+            { name: 'VIP Package', price: 7999, description: 'The ultimate VIP experience.', features: ['Access to all courses', '1-on-1 Mentorship', 'VIP Support', 'Certification'] },
+        ];
+
+        for (const pkg of packagesToSeed) {
+            await Package.findOneAndUpdate(
+                { name: pkg.name },
+                { $set: pkg },
+                { upsert: true, new: true }
+            );
+        }
+
+        res.json({ message: 'Packages seeded successfully' });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message || 'Server error' });
     }
 });
 

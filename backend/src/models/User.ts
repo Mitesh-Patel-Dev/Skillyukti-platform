@@ -8,6 +8,7 @@ export interface IUser extends Document {
     password: string;
     role: 'student' | 'admin';
     enrolledCourses: mongoose.Types.ObjectId[];
+    enrolledPackages: mongoose.Types.ObjectId[];
     avatar?: string;
     referralCode: string;
     referredBy?: mongoose.Types.ObjectId;
@@ -48,6 +49,12 @@ const userSchema = new Schema<IUser>(
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Course',
+            },
+        ],
+        enrolledPackages: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Package',
             },
         ],
         avatar: {
