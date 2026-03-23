@@ -98,6 +98,24 @@ export default function CourseDetailPage() {
                                         {course.description}
                                     </p>
 
+                                    {/* Product Image */}
+                                    {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' && (
+                                        <div className="mb-8 rounded-2xl overflow-hidden border border-white/10">
+                                            {course.mobileThumbnail && (
+                                                <img
+                                                    src={course.mobileThumbnail}
+                                                    alt={course.title}
+                                                    className="md:hidden w-full h-auto object-cover"
+                                                />
+                                            )}
+                                            <img
+                                                src={course.thumbnail}
+                                                alt={course.title}
+                                                className={`w-full h-auto object-cover ${course.mobileThumbnail ? 'hidden md:block' : ''}`}
+                                            />
+                                        </div>
+                                    )}
+
                                     {/* Meta */}
                                     <div className="flex flex-wrap items-center gap-6 mb-8">
                                         <div className="flex items-center gap-1.5">
