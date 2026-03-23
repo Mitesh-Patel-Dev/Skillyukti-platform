@@ -52,9 +52,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Logo */}
                 <div className="p-6 border-b border-white/5">
                     <Link href="/" className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-accent-purple flex items-center justify-center">
-                            <GraduationCap className="w-5 h-5 text-white" />
-                        </div>
+                        <img 
+                            src="/logo.png" 
+                            alt="Skillyukti" 
+                            className="h-9 w-auto object-contain"
+                        />
                         <div>
                             <span className="text-lg font-bold gradient-text block leading-tight">Skillyukti</span>
                             <span className="text-[10px] text-dark-300 uppercase tracking-widest">Admin Panel</span>
