@@ -55,10 +55,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <img 
                             src="/logo.png" 
                             alt="Skillyukti" 
-                            className="h-9 w-auto object-contain"
+                            className="h-10 w-auto object-contain"
                         />
                         <div>
-                            <span className="text-lg font-bold gradient-text block leading-tight">Skillyukti</span>
                             <span className="text-[10px] text-dark-300 uppercase tracking-widest">Admin Panel</span>
                         </div>
                     </Link>

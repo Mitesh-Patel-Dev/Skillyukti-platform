@@ -12,9 +12,8 @@ export default function Footer() {
                             <img 
                                 src="/logo.png" 
                                 alt="Skillyukti" 
-                                className="h-10 w-auto object-contain"
+                                className="h-14 w-auto object-contain"
                             />
-                            <span className="text-xl font-bold gradient-text">Skillyukti</span>
                         </div>
                         <p className="text-dark-200 text-sm leading-relaxed mb-4">
                             Empowering the next generation of digital entrepreneurs with

@@ -47,9 +47,8 @@ export default function LoginPage() {
                     <img 
                         src="/logo.png" 
                         alt="Skillyukti" 
-                        className="h-10 w-auto object-contain"
+                        className="h-16 w-auto object-contain"
                     />
-                    <span className="text-xl font-bold gradient-text">Skillyukti</span>
                 </Link>
 
                 {/* Card */}

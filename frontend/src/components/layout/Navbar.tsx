@@ -33,9 +33,8 @@ export default function Navbar() {
                         <img 
                             src="/logo.png" 
                             alt="Skillyukti" 
-                            className="h-10 w-auto object-contain"
+                            className="h-12 w-auto object-contain"
                         />
-                        <span className="text-xl font-bold gradient-text">Skillyukti</span>
                     </Link>
 
                     {/* Desktop Nav */}

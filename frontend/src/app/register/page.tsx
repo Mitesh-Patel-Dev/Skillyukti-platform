@@ -55,9 +55,8 @@ export default function RegisterPage() {
                     <img 
                         src="/logo.png" 
                         alt="Skillyukti" 
-                        className="h-10 w-auto object-contain"
+                        className="h-16 w-auto object-contain"
                     />
-                    <span className="text-xl font-bold gradient-text">Skillyukti</span>
                 </Link>
 
                 <div className="glass rounded-2xl p-8">
