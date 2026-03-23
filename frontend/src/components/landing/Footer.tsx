@@ -15,21 +15,10 @@ export default function Footer() {
                                 className="h-14 w-auto object-contain"
                             />
                         </div>
-                        <p className="text-dark-200 text-sm leading-relaxed mb-4">
+                        <p className="text-dark-200 text-sm leading-relaxed">
                             Empowering the next generation of digital entrepreneurs with
                             practical, industry-ready skills.
                         </p>
-                        <div className="flex gap-3">
-                            {['twitter', 'instagram', 'youtube', 'linkedin'].map((social) => (
-                                <a
-                                    key={social}
-                                    href="#"
-                                    className="w-9 h-9 rounded-lg glass hover:bg-white/10 flex items-center justify-center transition-all text-dark-200 hover:text-white text-xs uppercase font-bold"
-                                >
-                                    {social.charAt(0).toUpperCase()}
-                                </a>
-                            ))}
-                        </div>
                     </div>
 
                     {/* Quick Links */}
