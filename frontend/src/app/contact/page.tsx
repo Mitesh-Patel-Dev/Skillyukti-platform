@@ -9,7 +9,7 @@ export default function ContactPage() {
         <main className="min-h-screen pt-24 pb-16 flex flex-col">
             <Navbar />
             
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 flex-1 w-full">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-24 flex-1 w-full">
                 <div className="text-center mb-16">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight">
                         Get in <span className="gradient-text-accent">Touch</span>

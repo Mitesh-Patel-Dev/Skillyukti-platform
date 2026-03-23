@@ -8,7 +8,7 @@ export default function AboutPage() {
         <main className="min-h-screen pt-24 pb-16">
             <Navbar />
             
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-24">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight">
                         About <span className="gradient-text-accent">Skillyukti</span>

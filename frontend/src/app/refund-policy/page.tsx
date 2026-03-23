@@ -7,7 +7,7 @@ export default function RefundPolicyPage() {
         <main className="min-h-screen pt-24 pb-16 flex flex-col">
             <Navbar />
             
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 flex-1 w-full relative">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-24 flex-1 w-full relative">
                 <div className="absolute top-20 right-10 w-64 h-64 bg-accent-pink/10 rounded-full blur-[80px]" />
                 
                 <h1 className="text-4xl sm:text-5xl font-extrabold mb-8">

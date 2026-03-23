@@ -68,7 +68,7 @@ export default function CourseDetailPage() {
     return (
         <>
             <Navbar />
-            <main className="min-h-screen pt-20">
+            <main className="min-h-screen pt-20 pb-32">
                 {/* Hero Section */}
                 <div className="relative py-16 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-b from-primary-900/30 to-dark-900" />
