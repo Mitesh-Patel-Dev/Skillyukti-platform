@@ -19,6 +19,7 @@ export default function CourseDetailPage() {
     const router = useRouter();
     const { user, isEnrolled } = useAuth();
     const [course, setCourse] = useState<(Course & { curriculum?: Lesson[] }) | null>(null);
+    const [allCourses, setAllCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedSection, setExpandedSection] = useState<number>(0);
 
@@ -27,8 +28,12 @@ export default function CourseDetailPage() {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const { data } = await api.get(`/courses/${slug}`);
-                setCourse(data);
+                const [courseRes, allRes] = await Promise.all([
+                    api.get(`/courses/${slug}`),
+                    api.get('/courses'),
+                ]);
+                setCourse(courseRes.data);
+                setAllCourses(allRes.data);
             } catch {
                 setCourse(null);
             } finally {
@@ -64,6 +69,7 @@ export default function CourseDetailPage() {
     }
 
     const enrolled = course && user ? isEnrolled(course._id) : false;
+    const relatedCourses = allCourses.filter((c) => c._id !== course?._id);
 
     return (
         <>
@@ -262,6 +268,82 @@ export default function CourseDetailPage() {
                         </div>
                     </div>
                 </section>
+
+                {/* Related Products */}
+                {relatedCourses.length > 0 && (
+                    <section className="py-16 border-t border-white/5">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <motion.h2
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-2xl font-bold text-white mb-8"
+                            >
+                                Related <span className="gradient-text-accent">Products</span>
+                            </motion.h2>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                {relatedCourses.map((rc, index) => (
+                                    <motion.div
+                                        key={rc._id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.08 }}
+                                    >
+                                        <Link href={`/courses/${rc.slug}`}>
+                                            <div className="glass card-hover rounded-2xl overflow-hidden group h-full flex flex-col">
+                                                <div className="relative h-40 bg-gradient-to-br from-primary-900/50 to-dark-700">
+                                                    {rc.thumbnail && rc.thumbnail !== '/images/course-placeholder.jpg' ? (
+                                                        <img src={rc.thumbnail} alt={rc.title} className="absolute inset-0 w-full h-full object-cover" />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <span className="text-4xl">
+                                                                {rc.category === 'Digital Marketing' && '📊'}
+                                                                {rc.category === 'Freelancing' && '💼'}
+                                                                {rc.category === 'AI & Technology' && '🤖'}
+                                                                {rc.category === 'E-commerce' && '🛒'}
+                                                                {!['Digital Marketing', 'Freelancing', 'AI & Technology', 'E-commerce'].includes(rc.category) && '📚'}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                    <div className="absolute top-2 left-2">
+                                                        <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-primary-600/80 text-white backdrop-blur-sm">
+                                                            {rc.category}
+                                                        </span>
+                                                    </div>
+                                                    {rc.originalPrice > rc.price && (
+                                                        <div className="absolute top-2 right-2">
+                                                            <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-accent-pink/80 text-white">
+                                                                {Math.round((1 - rc.price / rc.originalPrice) * 100)}% OFF
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="p-4 flex flex-col flex-1">
+                                                    <h3 className="text-sm font-bold text-white mb-1 group-hover:text-primary-300 transition-colors line-clamp-2">
+                                                        {rc.title}
+                                                    </h3>
+                                                    <p className="text-dark-200 text-xs mb-3 flex-1 line-clamp-2">
+                                                        {rc.shortDescription}
+                                                    </p>
+                                                    <div className="flex items-center justify-between pt-3 border-t border-white/5">
+                                                        <div>
+                                                            <span className="text-lg font-bold text-white">₹{rc.price.toLocaleString()}</span>
+                                                            {rc.originalPrice > rc.price && (
+                                                                <span className="text-xs text-dark-300 line-through ml-1.5">₹{rc.originalPrice.toLocaleString()}</span>
+                                                            )}
+                                                        </div>
+                                                        <span className="text-primary-400 text-xs font-semibold flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                                                            View <ArrowRight className="w-3.5 h-3.5" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
             </main>
             <Footer />
         </>
