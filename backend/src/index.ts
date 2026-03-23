@@ -18,32 +18,7 @@ import paymentRoutes from './routes/payment';
 dotenv.config();
 
 // Connect to MongoDB
-connectDB().then(() => {
-    // One-time reset for course stats (Remove after first run)
-    const performReset = async () => {
-        try {
-            const Course = require('./models/Course').default;
-            const Lesson = require('./models/Lesson').default;
-            const Progress = require('./models/Progress').default;
-            
-            console.log('🚀 [ONE-TIME RESET] Starting...');
-            await Course.updateMany({}, {
-                $set: {
-                    enrolledCount: 0,
-                    totalLessons: 0,
-                    lessons: [],
-                    rating: 5.0
-                }
-            });
-            await Lesson.deleteMany({});
-            await Progress.deleteMany({});
-            console.log('✅ [ONE-TIME RESET] Completed successfully!');
-        } catch (err: any) {
-            console.error('❌ [ONE-TIME RESET] Failed:', err.message);
-        }
-    };
-    performReset();
-});
+connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
