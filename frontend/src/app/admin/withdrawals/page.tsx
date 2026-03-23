@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Banknote, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Banknote, Clock, CheckCircle, XCircle, Copy } from 'lucide-react';
 import api from '@/lib/api';
 import { WithdrawalRequest, User } from '@/types';
 import toast from 'react-hot-toast';
@@ -131,19 +131,57 @@ export default function AdminWithdrawalsPage() {
                                         </td>
                                         <td className="py-4 px-6">
                                             {req.paymentMethod === 'upi' ? (
-                                                <div className="flex flex-col">
-                                                    <span className="text-[10px] text-primary-400 uppercase font-bold tracking-wider mb-0.5">UPI ID</span>
-                                                    <span className="text-white text-sm">{req.upiId || 'Not provided'}</span>
+                                                <div className="bg-primary-500/5 border border-primary-500/10 rounded-lg p-2.5">
+                                                    <span className="text-[10px] text-primary-400 uppercase font-bold tracking-wider mb-1 block">UPI ID</span>
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        <span className="text-white text-sm font-medium">{req.upiId || 'Not provided'}</span>
+                                                        <button 
+                                                            onClick={() => {
+                                                                navigator.clipboard.writeText(req.upiId || '');
+                                                                toast.success('UPI ID copied!');
+                                                            }}
+                                                            className="p-1 hover:bg-white/10 rounded transition-colors text-dark-300 hover:text-white"
+                                                            title="Copy UPI ID"
+                                                        >
+                                                            <Copy className="w-3 h-3" />
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             ) : req.paymentMethod === 'bank' ? (
-                                                <div className="flex flex-col gap-0.5">
-                                                    <span className="text-[10px] text-accent-green uppercase font-bold tracking-wider mb-0.5">BANK TRANSFER</span>
-                                                    <div className="text-white text-sm font-medium">{req.accountHolderName || 'Not provided'}</div>
-                                                    <div className="text-dark-300 text-xs">Acc: {req.accountNumber || '—'}</div>
-                                                    <div className="text-dark-400 text-[10px]">IFSC: {req.ifscCode || '—'}</div>
+                                                <div className="bg-accent-green/5 border border-accent-green/10 rounded-lg p-2.5 space-y-1.5">
+                                                    <span className="text-[10px] text-accent-green uppercase font-bold tracking-wider block">BANK TRANSFER</span>
+                                                    <div className="text-white text-sm font-semibold">{req.accountHolderName || 'Not provided'}</div>
+                                                    
+                                                    <div className="flex items-center justify-between gap-2 bg-black/20 rounded px-2 py-1">
+                                                        <span className="text-dark-100 text-[11px] font-mono">Acc: {req.accountNumber || '—'}</span>
+                                                        <button 
+                                                            onClick={() => {
+                                                                navigator.clipboard.writeText(req.accountNumber || '');
+                                                                toast.success('Account number copied!');
+                                                            }}
+                                                            className="p-1 hover:bg-white/10 rounded transition-colors text-dark-300 hover:text-white"
+                                                        >
+                                                            <Copy className="w-3 h-3" />
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    <div className="flex items-center justify-between gap-2 bg-black/20 rounded px-2 py-1">
+                                                        <span className="text-dark-100 text-[11px] font-mono">IFSC: {req.ifscCode || '—'}</span>
+                                                        <button 
+                                                            onClick={() => {
+                                                                navigator.clipboard.writeText(req.ifscCode || '');
+                                                                toast.success('IFSC copied!');
+                                                            }}
+                                                            className="p-1 hover:bg-white/10 rounded transition-colors text-dark-300 hover:text-white"
+                                                        >
+                                                            <Copy className="w-3 h-3" />
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             ) : (
-                                                <div className="text-dark-500 text-xs italic">Legacy Request (No details)</div>
+                                                <div className="text-dark-500 text-xs italic p-2 border border-dashed border-white/5 rounded-lg text-center">
+                                                    Legacy Request (No details)
+                                                </div>
                                             )}
                                         </td>
                                         <td className="py-4 px-6 text-dark-300 text-sm">
