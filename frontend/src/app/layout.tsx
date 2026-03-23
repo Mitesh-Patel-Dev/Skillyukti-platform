@@ -24,6 +24,10 @@ export const metadata: Metadata = {
             'Build your online business and start earning online with Skillyukti.',
         type: 'website',
     },
+    icons: {
+        icon: '/favicon.png',
+        apple: '/favicon.png',
+    },
 };
 
 export default function RootLayout({
