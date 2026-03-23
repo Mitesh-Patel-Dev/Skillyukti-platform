@@ -160,8 +160,18 @@ export default function CheckoutPage() {
 
                                 {/* Course Card */}
                                 <div className="flex gap-4 p-4 bg-dark-700/50 rounded-xl mb-6">
-                                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-primary-600/30 to-accent-purple/30 flex items-center justify-center flex-shrink-0">
-                                        <BookOpen className="w-8 h-8 text-primary-400" />
+                                    <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                                        {(course.mobileThumbnail || course.thumbnail) && course.thumbnail !== '/images/course-placeholder.jpg' ? (
+                                            <img
+                                                src={course.mobileThumbnail || course.thumbnail}
+                                                alt={course.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-gradient-to-br from-primary-600/30 to-accent-purple/30 flex items-center justify-center">
+                                                <BookOpen className="w-8 h-8 text-primary-400" />
+                                            </div>
+                                        )}
                                     </div>
                                     <div>
                                         <h3 className="text-white font-semibold mb-1">{course.title}</h3>
