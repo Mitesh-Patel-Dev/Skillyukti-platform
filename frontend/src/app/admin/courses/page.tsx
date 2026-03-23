@@ -71,9 +71,10 @@ export default function AdminCoursesPage() {
                                 toast.dismiss();
                                 toast.success('All statistics reset successfully');
                                 fetchCourses();
-                            } catch {
+                            } catch (error: any) {
                                 toast.dismiss();
-                                toast.error('Failed to reset statistics');
+                                const msg = error.response?.data?.message || error.message;
+                                toast.error(`Failed: ${msg}`);
                             }
                         }}
                         className="flex items-center gap-2 bg-red-600/10 text-red-500 border border-red-500/20 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-red-600 hover:text-white transition-all"
