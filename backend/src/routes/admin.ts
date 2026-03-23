@@ -494,46 +494,4 @@ router.post('/seed-packages', protect, adminOnly, async (req: Request, res: Resp
     }
 });
 
-/**
- * POST /api/admin/reset-stats
- * Protected route to reset all course stats, delete all lessons, and clear student progress.
- */
-router.post('/reset-stats', async (_req: Request, res: Response): Promise<void> => {
-    try {
-        console.log('Admin Reset Stats: Starting...');
-        
-        // Reset Course stats
-        const courseResult = await Course.updateMany({}, {
-            $set: {
-                enrolledCount: 0,
-                totalLessons: 0,
-                lessons: [],
-                rating: 5.0
-            }
-        });
-
-        // Clear Lessons collection
-        const lessonResult = await Lesson.deleteMany({});
-        
-        // Clear Progress collection
-        const progressResult = await Progress.deleteMany({});
-        
-        // Clear all Orders as well for a fresh start? 
-        // No, maybe keep orders for history? User only highlighted bottom columns of Courses page.
-        // But for a fresh start, Orders and Payments should probably be cleared too.
-        // Let's stick to what was highlighted.
-
-        console.log('Admin Reset Stats: Completed successfully.');
-        res.json({
-            message: 'All course statistics and lessons have been reset.',
-            coursesUpdated: courseResult.modifiedCount,
-            lessonsDeleted: lessonResult.deletedCount,
-            progressCleared: progressResult.deletedCount
-        });
-    } catch (error: any) {
-        console.error('Admin Reset Stats Error:', error.message);
-        res.status(500).json({ message: error.message });
-    }
-});
-
 export default router;

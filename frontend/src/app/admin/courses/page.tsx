@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Plus, Search, Eye, EyeOff, Pencil, Trash2, GraduationCap, Play, RefreshCw } from 'lucide-react';
+import { Plus, Search, Eye, EyeOff, Pencil, Trash2, GraduationCap, Play } from 'lucide-react';
 import api from '@/lib/api';
 import { Course } from '@/types';
 import toast from 'react-hot-toast';
@@ -61,33 +61,12 @@ export default function AdminCoursesPage() {
                     <h1 className="text-2xl font-bold text-white">Courses</h1>
                     <p className="text-dark-200 text-sm mt-1">{courses.length} total courses</p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={async () => {
-                            if (!confirm('CRITICAL: This will reset ALL student counts, lessons, and progress to zero. This cannot be undone. Are you sure?')) return;
-                            try {
-                                toast.loading('Resetting data...');
-                                await api.post('/admin/reset-stats');
-                                toast.dismiss();
-                                toast.success('All statistics reset successfully');
-                                fetchCourses();
-                            } catch (error: any) {
-                                toast.dismiss();
-                                const msg = error.response?.data?.message || error.message;
-                                toast.error(`Failed: ${msg}`);
-                            }
-                        }}
-                        className="flex items-center gap-2 bg-red-600/10 text-red-500 border border-red-500/20 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-red-600 hover:text-white transition-all"
-                    >
-                        <RefreshCw className="w-4 h-4" /> Reset Statistics
-                    </button>
-                    <Link
-                        href="/admin/courses/new"
-                        className="flex items-center gap-2 bg-primary-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-primary-500 transition-colors"
-                    >
-                        <Plus className="w-4 h-4" /> New Course
-                    </Link>
-                </div>
+                <Link
+                    href="/admin/courses/new"
+                    className="flex items-center gap-2 bg-primary-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-primary-500 transition-colors"
+                >
+                    <Plus className="w-4 h-4" /> New Course
+                </Link>
             </div>
 
             {/* Search */}
