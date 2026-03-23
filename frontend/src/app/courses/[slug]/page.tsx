@@ -98,24 +98,6 @@ export default function CourseDetailPage() {
                                         {course.description}
                                     </p>
 
-                                    {/* Product Image */}
-                                    {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' && (
-                                        <div className="mb-8 rounded-2xl overflow-hidden border border-white/10">
-                                            {course.mobileThumbnail && (
-                                                <img
-                                                    src={course.mobileThumbnail}
-                                                    alt={course.title}
-                                                    className="md:hidden w-full h-auto object-cover"
-                                                />
-                                            )}
-                                            <img
-                                                src={course.thumbnail}
-                                                alt={course.title}
-                                                className={`w-full h-auto object-cover ${course.mobileThumbnail ? 'hidden md:block' : ''}`}
-                                            />
-                                        </div>
-                                    )}
-
                                     {/* Meta */}
                                     <div className="flex flex-wrap items-center gap-6 mb-8">
                                         <div className="flex items-center gap-1.5">
@@ -156,9 +138,21 @@ export default function CourseDetailPage() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.2 }}
-                                    className="glass rounded-2xl p-6 sticky top-24"
+                                    className="glass rounded-2xl overflow-hidden sticky top-24"
                                 >
+                                    {/* Product Image */}
+                                    {(course.mobileThumbnail || course.thumbnail) && course.thumbnail !== '/images/course-placeholder.jpg' && (
+                                        <div className="w-full">
+                                            <img
+                                                src={course.mobileThumbnail || course.thumbnail}
+                                                alt={course.title}
+                                                className="w-full h-auto object-cover"
+                                            />
+                                        </div>
+                                    )}
+
                                     {/* Price */}
+                                    <div className="p-6">
                                     <div className="mb-6">
                                         <div className="flex items-baseline gap-3 mb-1">
                                             <span className="text-4xl font-bold text-white">
@@ -215,6 +209,7 @@ export default function CourseDetailPage() {
                                             </li>
                                         ))}
                                     </ul>
+                                    </div>
                                 </motion.div>
                             </div>
                         </div>
