@@ -71,6 +71,71 @@ export default function CourseDetailPage() {
     const enrolled = course && user ? isEnrolled(course._id) : false;
     const relatedCourses = allCourses.filter((c) => c._id !== course?._id);
 
+    const renderCurriculum = () => (
+        <>
+            <h2 className="text-2xl font-bold text-white mb-8">Course Curriculum</h2>
+            <div className="space-y-3">
+                {(course?.curriculum || []).map((lesson, index) => (
+                    <motion.div
+                        key={lesson._id || index}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="glass rounded-xl overflow-hidden"
+                    >
+                        <button
+                            onClick={() => setExpandedSection(expandedSection === index ? -1 : index)}
+                            className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-all"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg bg-primary-600/20 flex items-center justify-center text-primary-400 text-sm font-semibold">
+                                    {index + 1}
+                                </div>
+                                <div className="text-left">
+                                    <h4 className="text-white font-medium text-sm">{lesson.title}</h4>
+                                    <p className="text-dark-300 text-xs">{lesson.duration}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                {lesson.isFree ? (
+                                    <span className="px-2 py-0.5 text-xs rounded-full bg-accent-green/20 text-accent-green font-medium">Free</span>
+                                ) : !enrolled ? (
+                                    <Lock className="w-4 h-4 text-dark-300" />
+                                ) : null}
+                                {expandedSection === index ? (
+                                    <ChevronUp className="w-4 h-4 text-dark-300" />
+                                ) : (
+                                    <ChevronDown className="w-4 h-4 text-dark-300" />
+                                )}
+                            </div>
+                        </button>
+
+                        {expandedSection === index && (
+                            <div className="px-4 pb-4 border-t border-white/5 pt-3">
+                                <p className="text-dark-200 text-sm">{lesson.description || 'No description available.'}</p>
+                                {lesson.resources && lesson.resources.length > 0 && (
+                                    <div className="mt-2 flex items-center gap-2">
+                                        <Download className="w-3.5 h-3.5 text-primary-400" />
+                                        <span className="text-primary-400 text-xs">
+                                            {lesson.resources.length} resource(s)
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </motion.div>
+                ))}
+
+                {(!course?.curriculum || course.curriculum.length === 0) && (
+                    <div className="glass rounded-xl p-8 text-center">
+                        <BookOpen className="w-10 h-10 text-dark-300 mx-auto mb-3" />
+                        <p className="text-dark-200">Curriculum will be available soon.</p>
+                    </div>
+                )}
+            </div>
+        </>
+    );
+
     return (
         <>
             <Navbar />
@@ -130,6 +195,11 @@ export default function CourseDetailPage() {
                                         </div>
                                     </div>
                                 </motion.div>
+
+                                {/* Curriculum - Desktop Only */}
+                                <div className="hidden lg:block mt-12">
+                                    {renderCurriculum()}
+                                </div>
                             </div>
 
                             {/* Right - Pricing Card */}
@@ -216,69 +286,10 @@ export default function CourseDetailPage() {
                     </div>
                 </div>
 
-                {/* Curriculum */}
-                <section className="py-16">
+                {/* Curriculum - Mobile Only */}
+                <section className="py-16 lg:hidden">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <h2 className="text-2xl font-bold text-white mb-8">Course Curriculum</h2>
-                        <div className="space-y-3 max-w-3xl">
-                            {(course.curriculum || []).map((lesson, index) => (
-                                <motion.div
-                                    key={lesson._id || index}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                    className="glass rounded-xl overflow-hidden"
-                                >
-                                    <button
-                                        onClick={() => setExpandedSection(expandedSection === index ? -1 : index)}
-                                        className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-all"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-lg bg-primary-600/20 flex items-center justify-center text-primary-400 text-sm font-semibold">
-                                                {index + 1}
-                                            </div>
-                                            <div className="text-left">
-                                                <h4 className="text-white font-medium text-sm">{lesson.title}</h4>
-                                                <p className="text-dark-300 text-xs">{lesson.duration}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            {lesson.isFree ? (
-                                                <span className="px-2 py-0.5 text-xs rounded-full bg-accent-green/20 text-accent-green font-medium">Free</span>
-                                            ) : !enrolled ? (
-                                                <Lock className="w-4 h-4 text-dark-300" />
-                                            ) : null}
-                                            {expandedSection === index ? (
-                                                <ChevronUp className="w-4 h-4 text-dark-300" />
-                                            ) : (
-                                                <ChevronDown className="w-4 h-4 text-dark-300" />
-                                            )}
-                                        </div>
-                                    </button>
-
-                                    {expandedSection === index && (
-                                        <div className="px-4 pb-4 border-t border-white/5 pt-3">
-                                            <p className="text-dark-200 text-sm">{lesson.description || 'No description available.'}</p>
-                                            {lesson.resources && lesson.resources.length > 0 && (
-                                                <div className="mt-2 flex items-center gap-2">
-                                                    <Download className="w-3.5 h-3.5 text-primary-400" />
-                                                    <span className="text-primary-400 text-xs">
-                                                        {lesson.resources.length} resource(s)
-                                                    </span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </motion.div>
-                            ))}
-
-                            {(!course.curriculum || course.curriculum.length === 0) && (
-                                <div className="glass rounded-xl p-8 text-center">
-                                    <BookOpen className="w-10 h-10 text-dark-300 mx-auto mb-3" />
-                                    <p className="text-dark-200">Curriculum will be available soon.</p>
-                                </div>
-                            )}
-                        </div>
+                        {renderCurriculum()}
                     </div>
                 </section>
 
