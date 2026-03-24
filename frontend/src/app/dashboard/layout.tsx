@@ -39,7 +39,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <img 
                         src="/logo.png" 
                         alt="Skillyukti" 
-                        className="h-10 w-auto object-contain"
+                        className="h-14 w-auto object-contain"
                     />
                 </Link>
             </div>
