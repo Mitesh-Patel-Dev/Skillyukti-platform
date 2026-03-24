@@ -29,11 +29,6 @@ export default function CheckoutPage() {
     const slug = params.slug as string;
 
     useEffect(() => {
-        if (!authLoading && !user) {
-            router.push('/login');
-            return;
-        }
-
         const fetchCourse = async () => {
             try {
                 const { data } = await api.get(`/courses/${slug}`);
@@ -45,14 +40,8 @@ export default function CheckoutPage() {
                 setLoading(false);
             }
         };
-        
-        if (user) {
-            fetchCourse();
-        } else if (!authLoading) {
-            // We've been redirected to login as per above, but let's set loading to false here anyway to hide spinner
-            setLoading(false);
-        }
-    }, [slug, user, authLoading, router]);
+        fetchCourse();
+    }, [slug, router]);
 
     const handlePayment = async () => {
         if (!course || !user) return;
@@ -200,20 +189,35 @@ export default function CheckoutPage() {
                                     </div>
                                 </div>
 
-                                <button
-                                    onClick={handlePayment}
-                                    disabled={processing}
-                                    className="glow-btn w-full bg-gradient-to-r from-primary-600 to-primary-500 text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
-                                >
-                                    {processing ? (
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    ) : (
-                                        <>
-                                            <CreditCard className="w-5 h-5" />
-                                            Pay ₹{course.price.toLocaleString()}
-                                        </>
-                                    )}
-                                </button>
+                                {user ? (
+                                    <button
+                                        onClick={handlePayment}
+                                        disabled={processing}
+                                        className="glow-btn w-full bg-gradient-to-r from-primary-600 to-primary-500 text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+                                    >
+                                        {processing ? (
+                                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        ) : (
+                                            <>
+                                                <CreditCard className="w-5 h-5" />
+                                                Pay ₹{course.price.toLocaleString()}
+                                            </>
+                                        )}
+                                    </button>
+                                ) : (
+                                    <div className="text-center bg-dark-700/50 p-6 rounded-xl border border-white/10">
+                                        <h3 className="text-white font-semibold mb-2">Account Required</h3>
+                                        <p className="text-dark-200 text-sm mb-4">Please log in or create an account to purchase this course.</p>
+                                        <div className="flex gap-3">
+                                            <Link href={`/login?redirect=/checkout/${course.slug}`} className="flex-1 bg-gradient-to-r from-primary-600 to-primary-500 text-white py-3 rounded-xl font-semibold hover:from-primary-500 hover:to-primary-400 transition-all">
+                                                Log In
+                                            </Link>
+                                            <Link href={`/register?redirect=/checkout/${course.slug}`} className="flex-1 glass text-white py-3 rounded-xl font-semibold hover:bg-white/10 transition-colors">
+                                                Register
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
 
