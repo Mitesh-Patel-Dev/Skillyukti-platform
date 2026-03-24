@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, BookOpen, LogIn, UserPlus, LayoutDashboard, LogOut, Shield } from 'lucide-react';
@@ -17,6 +18,9 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const pathname = usePathname();
+    const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin');
+
     return (
         <motion.nav
             initial={{ y: -100 }}
@@ -26,16 +30,20 @@ export default function Navbar() {
                     : 'bg-transparent'
                 }`}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={`${isDashboard ? 'px-6' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}`}>
                 <div className="flex items-center justify-between h-16 lg:h-20">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <img 
-                            src="/logo.png" 
-                            alt="Skillyukti" 
-                            className="h-12 w-auto object-contain"
-                        />
-                    </Link>
+                    {/* Logo - Hidden on Dashboard as it's moved to Sidebar */}
+                    <div className="flex items-center gap-2 group">
+                        {!isDashboard && (
+                            <Link href="/" className="flex items-center gap-2 group">
+                                <img 
+                                    src="/logo.png" 
+                                    alt="Skillyukti" 
+                                    className="h-12 w-auto object-contain"
+                                />
+                            </Link>
+                        )}
+                    </div>
 
                     {/* Desktop Nav */}
                     <div className="hidden lg:flex items-center gap-8">

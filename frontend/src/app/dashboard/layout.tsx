@@ -32,9 +32,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const SidebarContent = () => (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full bg-dark-900">
+            {/* Logo Section */}
+            <div className="h-16 lg:h-20 flex items-center px-6 border-b border-white/5">
+                <Link href="/" className="flex items-center gap-2 group">
+                    <img 
+                        src="/logo.png" 
+                        alt="Skillyukti" 
+                        className="h-10 w-auto object-contain"
+                    />
+                </Link>
+            </div>
+
             {/* User Info */}
-            <div className="p-5 border-b border-white/5">
+            <div className="p-5 border-b border-white/5 bg-white/[0.02]">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple overflow-hidden border border-white/10 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {user?.avatar ? (
@@ -91,7 +102,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Navbar />
             <div className="min-h-screen pt-16 flex">
                 {/* Desktop Sidebar */}
-                <aside className="hidden lg:flex flex-col w-64 fixed left-0 top-16 bottom-0 border-r border-white/5 bg-dark-900/80 backdrop-blur-xl z-30">
+                <aside className="hidden lg:flex flex-col w-64 fixed left-0 top-0 bottom-0 border-r border-white/5 bg-dark-900/80 backdrop-blur-xl z-[60]">
                     <SidebarContent />
                 </aside>
 
