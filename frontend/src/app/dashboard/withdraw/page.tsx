@@ -3,329 +3,161 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Send, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Wallet, TrendingUp, Clock, ArrowDownCircle, Plus, CheckCircle, XCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import Navbar from '@/components/layout/Navbar';
 import api from '@/lib/api';
-import { Wallet, WithdrawalRequest } from '@/types';
 import toast from 'react-hot-toast';
+import { WithdrawalRequest } from '@/types';
 
 export default function WithdrawPage() {
     const { user, loading: authLoading } = useAuth();
     const router = useRouter();
-    const [wallet, setWallet] = useState<Wallet | null>(null);
+    const [wallet, setWallet] = useState<any>(null);
     const [withdrawals, setWithdrawals] = useState<WithdrawalRequest[]>([]);
-    const [amount, setAmount] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState<'upi' | 'bank'>('upi');
-    const [upiId, setUpiId] = useState('');
-    const [accountHolderName, setAccountHolderName] = useState('');
-    const [accountNumber, setAccountNumber] = useState('');
-    const [ifscCode, setIfscCode] = useState('');
+    const [showForm, setShowForm] = useState(false);
     const [submitting, setSubmitting] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [form, setForm] = useState({ amount: '', paymentMethod: 'upi', upiId: '', accountHolderName: '', accountNumber: '', ifscCode: '' });
+
+    const loadData = async () => {
+        const [w, r] = await Promise.all([api.get('/wallet'), api.get('/wallet/withdrawals')]);
+        setWallet(w.data); setWithdrawals(r.data);
+    };
 
     useEffect(() => {
-        if (!authLoading && !user) {
-            router.push('/login');
-            return;
-        }
-        const fetchData = async () => {
-            try {
-                const [walletRes, withdrawalsRes] = await Promise.all([
-                    api.get('/wallet'),
-                    api.get('/wallet/withdrawals'),
-                ]);
-                setWallet(walletRes.data);
-                setWithdrawals(withdrawalsRes.data);
-            } catch {
-                console.error('Failed to load data');
-            } finally {
-                setLoading(false);
-            }
-        };
-        if (user) fetchData();
+        if (!authLoading && !user) { router.push('/login'); return; }
+        if (user) loadData().catch(() => {});
     }, [user, authLoading, router]);
 
-    const handleWithdraw = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const withdrawAmount = Number(amount);
-        
-        // Basic validation
-        if (!withdrawAmount || withdrawAmount <= 0) {
-            toast.error('Please enter a valid amount');
-            return;
-        }
-        if (wallet && withdrawAmount > wallet.balance) {
-            toast.error('Insufficient balance');
-            return;
-        }
+    const totalPending = withdrawals.filter(w => w.status === 'pending').reduce((s, w) => s + w.amount, 0);
+    const totalPaid    = withdrawals.filter(w => w.status === 'approved').reduce((s, w) => s + w.amount, 0);
 
-        // Payout detail validation
-        if (paymentMethod === 'upi' && !upiId.trim()) {
-            toast.error('Please enter your UPI ID');
-            return;
-        }
-        if (paymentMethod === 'bank') {
-            if (!accountHolderName.trim() || !accountNumber.trim() || !ifscCode.trim()) {
-                toast.error('Please fill all bank details');
-                return;
-            }
-        }
-
+    const handleSubmit = async () => {
+        if (!form.amount || Number(form.amount) <= 0) { toast.error('Enter a valid amount'); return; }
         setSubmitting(true);
         try {
-            await api.post('/wallet/withdraw', { 
-                amount: withdrawAmount,
-                paymentMethod,
-                upiId: paymentMethod === 'upi' ? upiId : undefined,
-                accountHolderName: paymentMethod === 'bank' ? accountHolderName : undefined,
-                accountNumber: paymentMethod === 'bank' ? accountNumber : undefined,
-                ifscCode: paymentMethod === 'bank' ? ifscCode : undefined,
+            await api.post('/wallet/withdraw', {
+                amount: Number(form.amount),
+                paymentMethod: form.paymentMethod,
+                upiId: form.upiId,
+                accountHolderName: form.accountHolderName,
+                accountNumber: form.accountNumber,
+                ifscCode: form.ifscCode,
             });
             toast.success('Withdrawal request submitted!');
-            setAmount('');
-            setUpiId('');
-            setAccountHolderName('');
-            setAccountNumber('');
-            setIfscCode('');
-            
-            // Refresh data
-            const [walletRes, withdrawalsRes] = await Promise.all([
-                api.get('/wallet'),
-                api.get('/wallet/withdrawals'),
-            ]);
-            setWallet(walletRes.data);
-            setWithdrawals(withdrawalsRes.data);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Failed to submit withdrawal');
-        } finally {
-            setSubmitting(false);
-        }
+            setShowForm(false);
+            setForm({ amount: '', paymentMethod: 'upi', upiId: '', accountHolderName: '', accountNumber: '', ifscCode: '' });
+            loadData();
+        } catch (e: any) {
+            toast.error(e?.response?.data?.message || 'Failed to submit request');
+        } finally { setSubmitting(false); }
     };
 
-    const getStatusBadge = (status: string) => {
-        switch (status) {
-            case 'pending':
-                return <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-yellow-500/10 text-yellow-400"><Clock className="w-3 h-3" /> Pending</span>;
-            case 'approved':
-                return <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-accent-green/10 text-accent-green"><CheckCircle className="w-3 h-3" /> Approved</span>;
-            case 'rejected':
-                return <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-red-500/10 text-red-400"><XCircle className="w-3 h-3" /> Rejected</span>;
-            default:
-                return null;
-        }
-    };
+    const statusIcon = (s: string) => s === 'approved' ? <CheckCircle className="w-4 h-4 text-accent-green" /> : s === 'rejected' ? <XCircle className="w-4 h-4 text-red-400" /> : <Clock className="w-4 h-4 text-yellow-400" />;
+    const statusColor = (s: string) => s === 'approved' ? 'text-accent-green bg-accent-green/10' : s === 'rejected' ? 'text-red-400 bg-red-400/10' : 'text-yellow-400 bg-yellow-400/10';
 
-    if (authLoading || loading) {
-        return (
-            <>
-                <Navbar />
-                <div className="min-h-screen pt-24 flex items-center justify-center">
-                    <div className="w-10 h-10 border-2 border-primary-500/30 border-t-primary-500 rounded-full animate-spin" />
-                </div>
-            </>
-        );
-    }
-
-    const hasPending = withdrawals.some((w) => w.status === 'pending');
+    if (authLoading) return <div className="flex items-center justify-center min-h-[60vh]"><div className="w-10 h-10 border-2 border-primary-500/30 border-t-primary-500 rounded-full animate-spin" /></div>;
 
     return (
-        <>
-            <Navbar />
-            <main className="min-h-screen pt-24 pb-16">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                        <h1 className="text-3xl font-bold text-white mb-2">Withdraw Funds</h1>
-                        <p className="text-dark-200 mb-8">Request a payout from your wallet balance.</p>
-                    </motion.div>
+        <div className="max-w-3xl mx-auto">
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <ArrowDownCircle className="w-6 h-6 text-accent-purple" /> Withdrawal Request
+            </motion.h1>
 
-                    {/* Withdrawal Form */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="glass rounded-2xl p-6 mb-8"
-                    >
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-lg font-semibold text-white">New Withdrawal</h2>
-                            <div className="text-sm text-dark-200">
-                                Available: <span className="text-primary-400 font-semibold">₹{wallet?.balance?.toLocaleString() || 0}</span>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
+                {[
+                    { label: 'Available Balance', value: wallet?.balance || 0, icon: Wallet, gradient: 'from-violet-600 to-purple-500' },
+                    { label: 'Total Withdrawn',   value: wallet?.totalWithdrawn || 0, icon: TrendingUp, gradient: 'from-emerald-600 to-teal-500' },
+                    { label: 'Pending Amount',    value: totalPending, icon: Clock, gradient: 'from-orange-500 to-amber-500' },
+                ].map((s, i) => (
+                    <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+                        className={`relative overflow-hidden rounded-2xl p-5 bg-gradient-to-br ${s.gradient} shadow-lg`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-white/10 -translate-y-3 translate-x-3" />
+                        <s.icon className="w-5 h-5 text-white/80 mb-2" />
+                        <div className="text-xl font-bold text-white">₹{s.value.toLocaleString()}</div>
+                        <div className="text-white/70 text-xs mt-0.5">{s.label}</div>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* Request Button / Form */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass rounded-2xl p-6 mb-6">
+                {!showForm ? (
+                    <button onClick={() => setShowForm(true)} className="flex items-center gap-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-primary-500 hover:to-primary-400 transition-all">
+                        <Plus className="w-4 h-4" /> Make Withdrawal Request
+                    </button>
+                ) : (
+                    <div className="space-y-4">
+                        <h2 className="text-base font-semibold text-white">Withdrawal Request</h2>
+                        <div>
+                            <label className="text-sm text-dark-200 mb-1.5 block">Amount (₹)</label>
+                            <input type="number" value={form.amount} onChange={e => setForm(p => ({ ...p, amount: e.target.value }))} max={wallet?.balance || 0} placeholder={`Max ₹${(wallet?.balance || 0).toLocaleString()}`}
+                                className="w-full bg-dark-700/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-primary-500/50" />
+                        </div>
+                        <div>
+                            <label className="text-sm text-dark-200 mb-1.5 block">Payment Method</label>
+                            <div className="flex gap-3">
+                                {['upi', 'bank'].map(m => (
+                                    <button key={m} onClick={() => setForm(p => ({ ...p, paymentMethod: m }))}
+                                        className={`flex-1 py-3 rounded-xl text-sm font-medium uppercase transition-all ${form.paymentMethod === m ? 'bg-primary-600 text-white' : 'glass text-dark-200 hover:text-white'}`}>
+                                        {m === 'upi' ? '📱 UPI' : '🏦 Bank Transfer'}
+                                    </button>
+                                ))}
                             </div>
                         </div>
-
-                        {hasPending ? (
-                            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 text-yellow-300 text-sm">
-                                ⏳ You have a pending withdrawal request. Please wait for admin approval before submitting another.
+                        {form.paymentMethod === 'upi' ? (
+                            <div>
+                                <label className="text-sm text-dark-200 mb-1.5 block">UPI ID</label>
+                                <input value={form.upiId} onChange={e => setForm(p => ({ ...p, upiId: e.target.value }))} placeholder="name@upi"
+                                    className="w-full bg-dark-700/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-primary-500/50" />
                             </div>
                         ) : (
-                            <form onSubmit={handleWithdraw} className="space-y-6">
-                                {/* Amount Input */}
-                                <div>
-                                    <label className="text-sm text-dark-200 mb-1.5 block">Amount to Withdraw (₹)</label>
-                                    <div className="flex gap-4">
-                                        <div className="relative flex-1">
-                                            <input
-                                                type="number"
-                                                value={amount}
-                                                onChange={(e) => setAmount(e.target.value)}
-                                                placeholder="Enter amount"
-                                                min={1}
-                                                max={wallet?.balance || 0}
-                                                className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => setAmount(String(wallet?.balance || 0))}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-primary-400 font-medium hover:text-primary-300 transition-colors"
-                                            >
-                                                MAX
-                                            </button>
-                                        </div>
+                            <div className="grid sm:grid-cols-3 gap-3">
+                                {[['accountHolderName','Account Holder Name'],['accountNumber','Account Number'],['ifscCode','IFSC Code']].map(([k,l]) => (
+                                    <div key={k}>
+                                        <label className="text-sm text-dark-200 mb-1.5 block">{l}</label>
+                                        <input value={(form as any)[k]} onChange={e => setForm(p => ({ ...p, [k]: e.target.value }))} className="w-full bg-dark-700/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-primary-500/50" />
                                     </div>
-                                </div>
-
-                                {/* Payment Method Selection */}
-                                <div>
-                                    <label className="text-sm text-dark-200 mb-3 block">Payout Method</label>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <button
-                                            type="button"
-                                            onClick={() => setPaymentMethod('upi')}
-                                            className={`flex items-center justify-center gap-3 p-4 rounded-xl border transition-all ${
-                                                paymentMethod === 'upi'
-                                                    ? 'bg-primary-500/10 border-primary-500 text-primary-400'
-                                                    : 'bg-dark-700/30 border-white/5 text-dark-300 hover:border-white/10'
-                                            }`}
-                                        >
-                                            <div className={`w-2 h-2 rounded-full ${paymentMethod === 'upi' ? 'bg-primary-400' : 'bg-dark-500'}`} />
-                                            <span className="font-medium text-sm">UPI ID</span>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => setPaymentMethod('bank')}
-                                            className={`flex items-center justify-center gap-3 p-4 rounded-xl border transition-all ${
-                                                paymentMethod === 'bank'
-                                                    ? 'bg-primary-500/10 border-primary-500 text-primary-400'
-                                                    : 'bg-dark-700/30 border-white/5 text-dark-300 hover:border-white/10'
-                                            }`}
-                                        >
-                                            <div className={`w-2 h-2 rounded-full ${paymentMethod === 'bank' ? 'bg-primary-400' : 'bg-dark-500'}`} />
-                                            <span className="font-medium text-sm">Bank Transfer</span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {/* Conditional Fields */}
-                                {paymentMethod === 'upi' ? (
-                                    <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-                                        <label className="text-sm text-dark-200 mb-1.5 block">UPI ID</label>
-                                        <input
-                                            type="text"
-                                            value={upiId}
-                                            onChange={(e) => setUpiId(e.target.value)}
-                                            placeholder="e.g. rahul@upi"
-                                            className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all"
-                                        />
-                                    </motion.div>
-                                ) : (
-                                    <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
-                                        <div>
-                                            <label className="text-sm text-dark-200 mb-1.5 block">Account Holder Name</label>
-                                            <input
-                                                type="text"
-                                                value={accountHolderName}
-                                                onChange={(e) => setAccountHolderName(e.target.value)}
-                                                placeholder="e.g. Rahul Sharma"
-                                                className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all"
-                                            />
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="text-sm text-dark-200 mb-1.5 block">Account Number</label>
-                                                <input
-                                                    type="text"
-                                                    value={accountNumber}
-                                                    onChange={(e) => setAccountNumber(e.target.value)}
-                                                    placeholder="1234567890"
-                                                    className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="text-sm text-dark-200 mb-1.5 block">IFSC Code</label>
-                                                <input
-                                                    type="text"
-                                                    value={ifscCode}
-                                                    onChange={(e) => setIfscCode(e.target.value)}
-                                                    placeholder="HDFC0001234"
-                                                    className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:border-primary-500/50 focus:outline-none transition-all uppercase"
-                                                />
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-
-                                <button
-                                    type="submit"
-                                    disabled={submitting || !amount}
-                                    className="w-full flex items-center justify-center gap-2 bg-primary-600 text-white px-6 py-4 rounded-xl text-sm font-semibold hover:bg-primary-500 transition-all shadow-lg shadow-primary-900/20 disabled:opacity-50"
-                                >
-                                    {submitting ? (
-                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    ) : (
-                                        <Send className="w-4 h-4" />
-                                    )}
-                                    {submitting ? 'Processing Request...' : 'Submit Withdrawal Request'}
-                                </button>
-                            </form>
+                                ))}
+                            </div>
                         )}
-                    </motion.div>
-
-                    {/* Withdrawal History */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                    >
-                        <h2 className="text-xl font-bold text-white mb-4">Withdrawal History</h2>
-                        <div className="glass rounded-2xl overflow-hidden">
-                            {withdrawals.length === 0 ? (
-                                <div className="p-12 text-center">
-                                    <div className="text-4xl mb-4">💸</div>
-                                    <h3 className="text-lg font-semibold text-white mb-2">No withdrawals yet</h3>
-                                    <p className="text-dark-300 text-sm">Your withdrawal requests will appear here.</p>
-                                </div>
-                            ) : (
-                                <div className="divide-y divide-white/5">
-                                    {withdrawals.map((req, index) => (
-                                        <motion.div
-                                            key={req._id}
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            className="flex items-center justify-between p-5"
-                                        >
-                                            <div>
-                                                <div className="text-white font-semibold">₹{req.amount.toLocaleString()}</div>
-                                                <div className="text-dark-400 text-xs">
-                                                    {new Date(req.createdAt).toLocaleDateString('en-IN', {
-                                                        day: 'numeric', month: 'short', year: 'numeric',
-                                                    })}
-                                                </div>
-                                            </div>
-                                            <div className="text-right">
-                                                {getStatusBadge(req.status)}
-                                                {req.adminNote && req.adminNote !== 'Approved' && req.adminNote !== 'Rejected' && (
-                                                    <div className="text-dark-400 text-xs mt-1">{req.adminNote}</div>
-                                                )}
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            )}
+                        <div className="flex gap-3 pt-2">
+                            <button onClick={handleSubmit} disabled={submitting} className="flex-1 bg-gradient-to-r from-primary-600 to-primary-500 text-white py-3 rounded-xl font-semibold hover:from-primary-500 hover:to-primary-400 transition-all disabled:opacity-60">
+                                {submitting ? 'Submitting...' : 'Submit Request'}
+                            </button>
+                            <button onClick={() => setShowForm(false)} className="px-6 py-3 rounded-xl glass text-dark-200 hover:text-white transition-colors">Cancel</button>
                         </div>
-                    </motion.div>
-                </div>
-            </main>
-        </>
+                    </div>
+                )}
+            </motion.div>
+
+            {/* History Table */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="glass rounded-2xl overflow-hidden">
+                <div className="p-5 border-b border-white/5"><h2 className="text-base font-semibold text-white">Withdrawal History</h2></div>
+                {withdrawals.length === 0 ? (
+                    <div className="p-10 text-center text-dark-300 text-sm">No withdrawal requests yet.</div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead><tr className="border-b border-white/5">{['Amount','Method','Status','Date'].map(h => <th key={h} className="text-left text-dark-300 text-xs font-medium py-3 px-5">{h}</th>)}</tr></thead>
+                            <tbody>
+                                {withdrawals.map(w => (
+                                    <tr key={w._id} className="border-b border-white/5 hover:bg-white/2">
+                                        <td className="py-4 px-5 text-white font-semibold">₹{w.amount.toLocaleString()}</td>
+                                        <td className="py-4 px-5 text-dark-200 text-sm uppercase">{w.paymentMethod}</td>
+                                        <td className="py-4 px-5">
+                                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusColor(w.status)}`}>
+                                                {statusIcon(w.status)} {w.status}
+                                            </span>
+                                        </td>
+                                        <td className="py-4 px-5 text-dark-300 text-xs">{new Date(w.createdAt).toLocaleDateString('en-IN')}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </motion.div>
+        </div>
     );
 }

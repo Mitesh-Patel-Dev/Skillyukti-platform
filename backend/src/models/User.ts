@@ -13,6 +13,18 @@ export interface IUser extends Document {
     avatar?: string;
     referralCode: string;
     referredBy?: mongoose.Types.ObjectId;
+    gender?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
+    bankDetails?: {
+        accountHolderName?: string;
+        accountNumber?: string;
+        ifscCode?: string;
+        bankName?: string;
+        upiId?: string;
+    };
     createdAt: Date;
     updatedAt: Date;
     comparePassword(candidatePassword: string): Promise<boolean>;
@@ -75,6 +87,18 @@ const userSchema = new Schema<IUser>(
         referredBy: {
             type: Schema.Types.ObjectId,
             ref: 'User',
+        },
+        gender: { type: String, enum: ['male', 'female', 'other', ''], default: '' },
+        address: { type: String, default: '' },
+        city:    { type: String, default: '' },
+        state:   { type: String, default: '' },
+        pincode: { type: String, default: '' },
+        bankDetails: {
+            accountHolderName: { type: String, default: '' },
+            accountNumber:     { type: String, default: '' },
+            ifscCode:          { type: String, default: '' },
+            bankName:          { type: String, default: '' },
+            upiId:             { type: String, default: '' },
         },
     },
     {

@@ -10,6 +10,38 @@ const router = Router();
 router.use(protect);
 
 /**
+ * GET /api/wallet/stats
+ * Revenue breakdown: today / 7d / 30d / all-time
+ */
+router.get('/stats', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userId = req.user?._id;
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const start7d    = new Date(now.getTime() - 7  * 24 * 60 * 60 * 1000);
+        const start30d   = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+        const [allTxs, wallet] = await Promise.all([
+            WalletTransaction.find({ userId, type: 'commission' }),
+            Wallet.findOne({ userId }),
+        ]);
+
+        const sum = (txs: any[]) => txs.reduce((acc, t) => acc + (t.amount || 0), 0);
+
+        res.json({
+            today:    sum(allTxs.filter(t => t.createdAt >= startOfToday)),
+            last7d:   sum(allTxs.filter(t => t.createdAt >= start7d)),
+            last30d:  sum(allTxs.filter(t => t.createdAt >= start30d)),
+            allTime:  wallet?.totalEarnings || 0,
+            balance:  wallet?.balance        || 0,
+            withdrawn: wallet?.totalWithdrawn || 0,
+        });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message || 'Server error' });
+    }
+});
+
+/**
  * GET /api/wallet
  * Get current user's wallet
  */

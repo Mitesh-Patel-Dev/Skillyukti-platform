@@ -117,5 +117,55 @@ router.get('/me', protect, async (req: Request, res: Response): Promise<void> =>
         res.status(500).json({ message: error.message || 'Server error' });
     }
 });
+/**
+ * PUT /api/auth/profile
+ * Update current user's personal information
+ */
+router.put('/profile', protect, async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { name, phone, gender, address, city, state, pincode } = req.body;
+        const user = await User.findByIdAndUpdate(
+            req.user?._id,
+            { $set: { name, phone, gender, address, city, state, pincode } },
+            { new: true, runValidators: true }
+        );
+        if (!user) { res.status(404).json({ message: 'User not found' }); return; }
+        res.json({ message: 'Profile updated successfully', user });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message || 'Server error' });
+    }
+});
+
+/**
+ * PUT /api/auth/kyc
+ * Save bank / UPI details
+ */
+router.put('/kyc', protect, async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { accountHolderName, accountNumber, ifscCode, bankName, upiId } = req.body;
+        const user = await User.findByIdAndUpdate(
+            req.user?._id,
+            { $set: { bankDetails: { accountHolderName, accountNumber, ifscCode, bankName, upiId } } },
+            { new: true }
+        );
+        if (!user) { res.status(404).json({ message: 'User not found' }); return; }
+        res.json({ message: 'Bank details saved successfully', bankDetails: user.bankDetails });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message || 'Server error' });
+    }
+});
+
+/**
+ * GET /api/auth/sponsor
+ * Get the current user's sponsor (referrer) info
+ */
+router.get('/sponsor', protect, async (req: Request, res: Response): Promise<void> => {
+    try {
+        const user = await User.findById(req.user?._id).populate('referredBy', 'name email phone referralCode');
+        res.json({ sponsor: user?.referredBy || null });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message || 'Server error' });
+    }
+});
 
 export default router;
