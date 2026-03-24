@@ -68,7 +68,7 @@ connectDB().then(() => {
     };
     
     // Call reset - IMPORTANT: Remove or comment out after one successful run in production
-    performFullReset();
+    // performFullReset();
 });
 
 const app = express();
