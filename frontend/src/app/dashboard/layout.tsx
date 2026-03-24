@@ -36,8 +36,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* User Info */}
             <div className="p-5 border-b border-white/5">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple overflow-hidden border border-white/10 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                        {user?.avatar ? (
+                            <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                        ) : (
+                            user?.name?.charAt(0)?.toUpperCase() || 'U'
+                        )}
                     </div>
                     <div className="min-w-0">
                         <p className="text-white font-semibold text-sm truncate">{user?.name}</p>

@@ -3,19 +3,21 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, MapPin, Save, CheckCircle } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Save, CheckCircle, Upload } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import ImageUpload from '@/components/admin/ImageUpload';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 
 export default function ProfilePage() {
-    const { user, loading: authLoading } = useAuth();
+    const { user, loading: authLoading, updateUser } = useAuth();
     const router = useRouter();
     const [sponsor, setSponsor] = useState<any>(null);
     const [saving, setSaving] = useState(false);
     const [form, setForm] = useState({
         name: '', email: '', phone: '', gender: '',
         address: '', city: '', state: '', pincode: '',
+        avatar: '',
     });
 
     useEffect(() => {
@@ -30,6 +32,7 @@ export default function ProfilePage() {
                 city: (user as any).city || '',
                 state: (user as any).state || '',
                 pincode: (user as any).pincode || '',
+                avatar: (user as any).avatar || '',
             });
             api.get('/auth/sponsor').then(({ data }) => setSponsor(data.sponsor)).catch(() => {});
         }
@@ -38,7 +41,8 @@ export default function ProfilePage() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            await api.put('/auth/profile', form);
+            const { data } = await api.put('/auth/profile', form);
+            updateUser(data.user);
             toast.success('Profile updated successfully!');
         } catch (err: any) {
             toast.error(err?.response?.data?.message || 'Failed to update profile');
@@ -83,6 +87,28 @@ export default function ProfilePage() {
 
             {/* Personal Info */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass rounded-2xl p-6">
+                <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 pb-8 border-b border-white/10">
+                    <div className="relative group">
+                        <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary-600/30 to-accent-purple/30 overflow-hidden border-2 border-primary-500/20">
+                            {form.avatar ? (
+                                <img src={form.avatar} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-primary-400 font-bold text-3xl">
+                                    {form.name.charAt(0)}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="flex-1">
+                        <h2 className="text-base font-semibold text-white mb-1">Profile Photo</h2>
+                        <p className="text-dark-300 text-xs mb-4">Recommended: Square image, max 2MB</p>
+                        <ImageUpload 
+                            value={form.avatar} 
+                            onChange={(url) => setForm(prev => ({ ...prev, avatar: url }))} 
+                        />
+                    </div>
+                </div>
+
                 <h2 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
                     <Mail className="w-4 h-4 text-primary-400" /> Personal Information
                 </h2>

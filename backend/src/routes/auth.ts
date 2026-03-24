@@ -123,10 +123,10 @@ router.get('/me', protect, async (req: Request, res: Response): Promise<void> =>
  */
 router.put('/profile', protect, async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, phone, gender, address, city, state, pincode } = req.body;
+        const { name, phone, gender, address, city, state, pincode, avatar } = req.body;
         const user = await User.findByIdAndUpdate(
             req.user?._id,
-            { $set: { name, phone, gender, address, city, state, pincode } },
+            { $set: { name, phone, gender, address, city, state, pincode, avatar } },
             { new: true, runValidators: true }
         );
         if (!user) { res.status(404).json({ message: 'User not found' }); return; }
