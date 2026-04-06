@@ -34,7 +34,7 @@ export default function ProfilePage() {
                 pincode: (user as any).pincode || '',
                 avatar: (user as any).avatar || '',
             });
-            api.get('/auth/sponsor').then(({ data }) => setSponsor(data.sponsor)).catch(() => {});
+            api.get('/auth/sponsor').then(({ data }) => setSponsor(data.sponsor)).catch(() => { });
         }
     }, [user, authLoading, router]);
 
@@ -102,9 +102,9 @@ export default function ProfilePage() {
                     <div className="flex-1">
                         <h2 className="text-base font-semibold text-white mb-1">Profile Photo</h2>
                         <p className="text-dark-300 text-xs mb-4">Recommended: Square image, max 2MB</p>
-                        <ImageUpload 
-                            value={form.avatar} 
-                            onChange={(url) => setForm(prev => ({ ...prev, avatar: url }))} 
+                        <ImageUpload
+                            value={form.avatar}
+                            onChange={(url) => setForm(prev => ({ ...prev, avatar: url }))}
                         />
                     </div>
                 </div>
