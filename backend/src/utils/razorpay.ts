@@ -3,13 +3,21 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const keyId = process.env.RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY || '';
+const keySecret = process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET || '';
+
+if (!keyId || !keySecret) {
+    console.error('⚠️  RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET is not set! Payments will fail.');
+} else {
+    console.log(`✅ Razorpay initialized with key: ${keyId.substring(0, 12)}... (${keyId.startsWith('rzp_live') ? 'LIVE' : 'TEST'} mode)`);
+}
+
 /**
  * Razorpay instance configured with API keys.
- * Uses test keys by default for development.
  */
 const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY || 'rzp_test_STr5kdqZk9vaq6',
-    key_secret: process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET || '0ko4dQBap8tbFdExoB8Nurq9',
+    key_id: keyId,
+    key_secret: keySecret,
 });
 
 export default razorpay;

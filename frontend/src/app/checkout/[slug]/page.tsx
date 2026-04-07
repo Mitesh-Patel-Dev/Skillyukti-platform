@@ -51,7 +51,8 @@ export default function CheckoutPage() {
             // Load Razorpay script
             const loaded = await loadRazorpayScript();
             if (!loaded) {
-                toast.error('Razorpay SDK failed to load');
+                toast.error('Razorpay SDK failed to load. Please check your internet connection.');
+                setProcessing(false);
                 return;
             }
 
@@ -61,6 +62,8 @@ export default function CheckoutPage() {
                 courseId: course._id,
                 ...(referralCode ? { referralCode } : {}),
             });
+
+            console.log('[Checkout] Order created:', { orderId: data.razorpayOrderId, keyId: data.keyId?.substring(0, 10) + '...' });
 
             // Open Razorpay checkout
             const options = {
@@ -73,12 +76,14 @@ export default function CheckoutPage() {
                 prefill: {
                     name: user.name,
                     email: user.email,
+                    contact: (user as any).phone || '',
                 },
                 theme: {
                     color: '#5c7cfa',
                 },
                 handler: async (response: any) => {
                     try {
+                        console.log('[Checkout] Payment success, verifying...');
                         // Verify payment
                         await api.post('/orders/verify', {
                             razorpayOrderId: response.razorpay_order_id,
@@ -91,22 +96,33 @@ export default function CheckoutPage() {
 
                         toast.success('Payment successful! Course unlocked.');
                         router.push('/payment-success?course=' + course.slug);
-                    } catch {
-                        toast.error('Payment verification failed');
+                    } catch (verifyErr: any) {
+                        console.error('[Checkout] Verification failed:', verifyErr);
+                        toast.error('Payment verification failed. Please contact support.');
                     }
                 },
                 modal: {
                     ondismiss: () => {
+                        console.log('[Checkout] Modal dismissed by user');
                         setProcessing(false);
                     },
                 },
             };
 
-            const razorpay = new window.Razorpay(options);
-            razorpay.open();
+            const rzp = new window.Razorpay(options);
+
+            // Handle payment failures
+            rzp.on('payment.failed', (response: any) => {
+                console.error('[Checkout] Payment failed:', response.error);
+                const reason = response.error?.description || response.error?.reason || 'Payment failed';
+                toast.error(reason);
+                setProcessing(false);
+            });
+
+            rzp.open();
         } catch (error: any) {
-            toast.error(error.response?.data?.message || 'Payment failed');
-        } finally {
+            console.error('[Checkout] Order creation failed:', error.response?.data || error.message);
+            toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
             setProcessing(false);
         }
     };

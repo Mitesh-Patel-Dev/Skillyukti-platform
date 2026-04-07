@@ -81,10 +81,11 @@ router.post(
                 razorpayOrderId: razorpayOrder.id,
                 amount: razorpayOrder.amount,
                 currency: razorpayOrder.currency,
-                keyId: process.env.RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY || 'rzp_test_STr5kdqZk9vaq6',
+                keyId: process.env.RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY || '',
             });
         } catch (error: any) {
-            res.status(500).json({ message: error.message || 'Server error' });
+            console.error('[Order Create] Error:', error.message, error.error?.description);
+            res.status(500).json({ message: error.error?.description || error.message || 'Server error' });
         }
     }
 );
@@ -103,7 +104,7 @@ router.post(
             // Verify signature
             const body = razorpayOrderId + '|' + razorpayPaymentId;
             const expectedSignature = crypto
-                .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET || '0ko4dQBap8tbFdExoB8Nurq9')
+                .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET || '')
                 .update(body)
                 .digest('hex');
 
