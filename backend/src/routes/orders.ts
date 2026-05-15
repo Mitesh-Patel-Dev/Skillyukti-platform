@@ -84,7 +84,6 @@ router.post(
                 keyId: process.env.RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY || '',
             });
         } catch (error: any) {
-            console.error('[Order Create] Error:', error.message, error.error?.description);
             res.status(500).json({ message: error.error?.description || error.message || 'Server error' });
         }
     }

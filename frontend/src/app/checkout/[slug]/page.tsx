@@ -63,7 +63,6 @@ export default function CheckoutPage() {
                 ...(referralCode ? { referralCode } : {}),
             });
 
-            console.log('[Checkout] Order created:', { orderId: data.razorpayOrderId, keyId: data.keyId?.substring(0, 10) + '...' });
 
             // Open Razorpay checkout
             const options = {
@@ -83,7 +82,6 @@ export default function CheckoutPage() {
                 },
                 handler: async (response: any) => {
                     try {
-                        console.log('[Checkout] Payment success, verifying...');
                         // Verify payment
                         await api.post('/orders/verify', {
                             razorpayOrderId: response.razorpay_order_id,
@@ -96,14 +94,12 @@ export default function CheckoutPage() {
 
                         toast.success('Payment successful! Course unlocked.');
                         router.push('/payment-success?course=' + course.slug);
-                    } catch (verifyErr: any) {
-                        console.error('[Checkout] Verification failed:', verifyErr);
+                    } catch {
                         toast.error('Payment verification failed. Please contact support.');
                     }
                 },
                 modal: {
                     ondismiss: () => {
-                        console.log('[Checkout] Modal dismissed by user');
                         setProcessing(false);
                     },
                 },
@@ -113,7 +109,6 @@ export default function CheckoutPage() {
 
             // Handle payment failures
             rzp.on('payment.failed', (response: any) => {
-                console.error('[Checkout] Payment failed:', response.error);
                 const reason = response.error?.description || response.error?.reason || 'Payment failed';
                 toast.error(reason);
                 setProcessing(false);
@@ -121,7 +116,6 @@ export default function CheckoutPage() {
 
             rzp.open();
         } catch (error: any) {
-            console.error('[Checkout] Order creation failed:', error.response?.data || error.message);
             toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
             setProcessing(false);
         }
