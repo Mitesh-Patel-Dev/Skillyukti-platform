@@ -47,30 +47,43 @@ export default function Navbar() {
 
                     {/* Desktop Nav */}
                     <div className="hidden lg:flex items-center gap-8">
+                         <Link
+                            href="/#"
+                            className="text-dark-100 hover:text-orange-400 transition-colors text-sm font-medium"
+                        >
+                            Home
+                        </Link>
+
                         <Link
                             href="/courses"
-                            className="text-dark-100 hover:text-white transition-colors text-sm font-medium"
+                            className="text-dark-100 hover:text-orange-400 transition-colors text-sm font-medium"
                         >
                             Courses
                         </Link>
                         <Link
                             href="/#how-it-works"
-                            className="text-dark-100 hover:text-white transition-colors text-sm font-medium"
+                            className="text-dark-100 hover:text-orange-400 transition-colors text-sm font-medium"
                         >
                             How It Works
                         </Link>
                         <Link
                             href="/testimonials"
-                            className="text-dark-100 hover:text-white transition-colors text-sm font-medium"
+                            className="text-dark-100 hover:text-orange-400 transition-colors text-sm font-medium"
                         >
                             Testimonials
+                        </Link>
+                         <Link
+                            href="/contact"
+                            className="text-dark-100 hover:text-orange-400 transition-colors text-sm font-medium"
+                        >
+                            Contact
                         </Link>
 
                         {user ? (
                             <div className="flex items-center gap-4">
                                 <Link
                                     href="/dashboard"
-                                    className="flex items-center gap-2 text-dark-100 hover:text-white transition-colors text-sm font-medium"
+                                    className="flex items-center gap-2 text-dark-100 hover:text-orange-400 transition-colors text-sm font-medium"
                                 >
                                     <LayoutDashboard className="w-4 h-4" />
                                     Dashboard
@@ -78,7 +91,7 @@ export default function Navbar() {
                                 {user.role === 'admin' && (
                                     <Link
                                         href="/admin"
-                                        className="flex items-center gap-2 text-accent-purple hover:text-primary-300 transition-colors text-sm font-medium"
+                                        className="flex items-center gap-2 text-accent-purple hover:text-orange-400 transition-colors text-sm font-medium"
                                     >
                                         <Shield className="w-4 h-4" />
                                         Admin
@@ -131,9 +144,13 @@ export default function Navbar() {
                         className="lg:hidden glass-strong border-t border-white/5"
                     >
                         <div className="flex flex-col gap-2 p-4">
+                            
+                            <Link href="/#" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Home</Link>
+                            
                             <Link href="/courses" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Courses</Link>
                             <Link href="/#how-it-works" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>How It Works</Link>
                             <Link href="/testimonials" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Testimonials</Link>
+                            <Link href="/contact" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Contact</Link>
                             {user ? (
                                 <>
                                     <Link href="/dashboard" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Dashboard</Link>
