@@ -73,7 +73,7 @@ export default function RegisterPage() {
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="John Doe"
+                                    placeholder="Arjun"
                                     required
                                     className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder-dark-300 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all"
                                 />
@@ -152,9 +152,16 @@ export default function RegisterPage() {
                     <p className="text-center text-dark-200 text-sm mt-6">
                         Already have an account?{' '}
                         <Link href="/login" className="text-primary-400 hover:text-primary-300 font-medium">
-                            Sign In
+                            Log In
                         </Link>
                     </p>
+                     <p className="text-center text-dark-200 text-sm mt-6">
+                        Are you want to back Home page?{' '}
+                        <Link href="/#" className="text-primary-400 hover:text-primary-300 font-medium">
+                            Go To Home
+                        </Link>
+                    </p>
+
                 </div>
             </motion.div>
         </div>
