@@ -88,7 +88,7 @@ export default function Footer() {
                 {/* Bottom */}
                 <div className="border-t border-white/5 mt-12 pt-8 text-center">
                     <p className="text-dark-300 text-sm">
-                        © {new Date().getFullYear()} Skillyukti. All rights reserved.
+                        © {new Date().getFullYear()} Skillyukti. All rights reserved. Managed By: Engr. Adarsh Vishwakarma
                     </p>
                 </div>
             </div>
