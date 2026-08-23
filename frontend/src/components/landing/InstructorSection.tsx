@@ -22,7 +22,7 @@ export default function InstructorSection() {
                         <div className="relative w-full aspect-[4/3] lg:aspect-square max-w-[500px] lg:max-w-[540px] mx-auto">
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-[2.5rem] blur-3xl opacity-50" />
-                            {/* Photo container */}
+                            {/* Photo container Founder's */}
                             <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10">
                                 <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full justify-center">
                                     <motion.div 
@@ -43,7 +43,7 @@ export default function InstructorSection() {
                                             Khushabu Chauhan
                                         </h3>
                                         <p className="text-primary-300 font-medium text-lg sm:text-xl mt-2 whitespace-nowrap">
-                                            Founder & Lead Instructor
+                                            Founder & CEO
                                         </p>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@ export default function InstructorSection() {
                                 className="absolute -top-6 -right-6 lg:-right-8 glass rounded-2xl px-5 py-3.5 flex items-center gap-2.5 shadow-2xl border border-white/5"
                             >
                                 <Award className="w-5 h-5 text-accent-orange" />
-                                <span className="text-sm font-bold text-white">10+ Years</span>
+                                <span className="text-sm font-bold text-white">5+ Years</span>
                             </motion.div>
 
                             <motion.div
@@ -65,7 +65,7 @@ export default function InstructorSection() {
                                 className="absolute -bottom-6 -left-6 lg:-left-8 glass rounded-2xl px-5 py-3.5 flex items-center gap-2.5 shadow-2xl border border-white/5"
                             >
                                 <Users className="w-5 h-5 text-accent-green" />
-                                <span className="text-sm font-bold text-white">10,000+ Students</span>
+                                <span className="text-sm font-bold text-white">1000+ Students</span>
                             </motion.div>
                         </div>
                     </motion.div>
@@ -109,7 +109,7 @@ export default function InstructorSection() {
                             </div>
                             <div className="glass rounded-xl p-4 text-center">
                                 <Users className="w-5 h-5 text-accent-green mx-auto mb-2" />
-                                <div className="text-2xl font-bold text-white">10K+</div>
+                                <div className="text-2xl font-bold text-white">1K+</div>
                                 <div className="text-xs text-dark-200">Students</div>
                             </div>
                             <div className="glass rounded-xl p-4 text-center">
