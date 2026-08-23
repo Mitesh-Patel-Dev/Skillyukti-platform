@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { BookOpen, Mail, MapPin, Phone } from 'lucide-react';
+import { label } from 'framer-motion/client';
 
 export default function Footer() {
     return (
@@ -23,9 +24,10 @@ export default function Footer() {
 
                     {/* Quick Links */}
                     <div>
-                        <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+                        <h4 className="text-orange-400  font-semibold mb-4">Quick Links</h4>
                         <ul className="space-y-2.5">
                             {[
+                                { label: 'Home', href:'/#'}, 
                                 { label: 'All Courses', href: '/courses' },
                                 { label: 'About Us', href: '/about' },
                                 { label: 'Testimonials', href: '/testimonials' },
@@ -34,7 +36,7 @@ export default function Footer() {
                                 <li key={link.label}>
                                     <Link
                                         href={link.href}
-                                        className="text-dark-200 hover:text-white text-sm transition-colors"
+                                        className="text-dark-200 hover:text-orange-400 text-sm transition-colors"
                                     >
                                         {link.label}
                                     </Link>
@@ -45,7 +47,7 @@ export default function Footer() {
 
                     {/* Legal */}
                     <div>
-                        <h4 className="text-white font-semibold mb-4">Legal</h4>
+                        <h4 className="text-orange-400 font-semibold mb-4">Legal</h4>
                         <ul className="space-y-2.5">
                             {[
                                 { label: 'Privacy Policy', href: '/privacy-policy' },
@@ -56,7 +58,7 @@ export default function Footer() {
                                 <li key={link.label}>
                                     <Link
                                         href={link.href}
-                                        className="text-dark-200 hover:text-white text-sm transition-colors"
+                                        className="text-dark-200 hover:text-orange-400 text-sm transition-colors"
                                     >
                                         {link.label}
                                     </Link>
@@ -67,15 +69,23 @@ export default function Footer() {
 
                     {/* Contact */}
                     <div>
-                        <h4 className="text-white font-semibold mb-4">Contact Us</h4>
+                        <h4 className="text-orange-400 font-semibold mb-4">Contact Us</h4>
                         <ul className="space-y-3">
                             <li className="flex items-center gap-2.5 text-dark-200 text-sm">
                                 <Mail className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                                support@skillyukti.com
+                                <a
+                              href="https://mail.google.com/mail/?view=cm&fs=1&to=helpskillyukti@gmail.com"
+                              className="flex items-center gap-2.5 text-dark-200 text-sm"
+                              >
+                              helpskillyukti@gmail.com
+                             </a>
                             </li>
                             <li className="flex items-center gap-2.5 text-dark-200 text-sm">
-                                <Phone className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                                +91 98765 43210
+                                <a href="tel:+91 9044471702"
+                                className="flex items-start gap-2.5 text-dark-200 text-sm"
+                                >
+                                 📞+91 9044471702
+                            </a>
                             </li>
                             <li className="flex items-start gap-2.5 text-dark-200 text-sm">
                                 <MapPin className="w-4 h-4 text-primary-400 flex-shrink-0 mt-0.5" />
@@ -88,7 +98,7 @@ export default function Footer() {
                 {/* Bottom */}
                 <div className="border-t border-white/5 mt-12 pt-8 text-center">
                     <p className="text-dark-300 text-sm">
-                        © {new Date().getFullYear()} Skillyukti. All rights reserved. Managed By: Engr. Adarsh Vishwakarma
+                        &copy;{new Date().getFullYear()} Skillyukti. All rights reserved. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Managed By: Engr. Adarsh Vishwakarma
                     </p>
                 </div>
             </div>
