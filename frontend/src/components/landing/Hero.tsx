@@ -33,7 +33,7 @@ export default function Hero() {
                     >
                         <Sparkles className="w-4 h-4 text-accent-orange" />
                         <span className="text-sm text-dark-50 font-medium">
-                            Trusted by 10,000+ Students Across India
+                            Trusted by 1000+ Students Across India
                         </span>
                     </motion.div>
 
@@ -76,10 +76,15 @@ export default function Hero() {
                             Enroll Now
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <button className="group glass hover:bg-white/10 text-white px-8 py-4 rounded-2xl text-lg font-semibold flex items-center gap-2 w-full sm:w-auto justify-center transition-all">
-                            <Play className="w-5 h-5" />
+                        <Link
+                            href="https://www.youtube.com/@skillyukti-56"
+                            target='_blank'
+                            className="glow-btn group bg-gradient-to-r from-primary-200 to-primary-150 text-white px-8 py-4 rounded-2xl text-lg font-semibold flex items-center gap-2 w-full sm:w-auto justify-center"
+                        >
                             Watch Demo
-                        </button>
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+
                     </motion.div>
 
                     {/* Stats */}
@@ -92,7 +97,7 @@ export default function Hero() {
                         <div className="text-center">
                             <div className="flex items-center justify-center gap-1.5 mb-1">
                                 <Users className="w-4 h-4 text-primary-400" />
-                                <span className="text-2xl sm:text-3xl font-bold text-white">10K+</span>
+                                <span className="text-2xl sm:text-3xl font-bold text-white">1K+</span>
                             </div>
                             <p className="text-xs sm:text-sm text-dark-200">Students</p>
                         </div>
