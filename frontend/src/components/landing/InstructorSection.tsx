@@ -35,7 +35,7 @@ export default function InstructorSection() {
                                             <span className="text-white text-sm font-semibold tracking-wider">VIEW</span>
                                         </div>
                                         <div className="w-full h-full rounded-full overflow-hidden bg-dark-800 border-4 border-dark-900/50">
-                                            <img src="/images/founder.jpg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
+                                            <img src="/founder.jpeg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
                                         </div>
                                     </motion.div>
                                     <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
@@ -144,7 +144,7 @@ export default function InstructorSection() {
                             >
                                 <X className="w-5 h-5" />
                             </button>
-                            <img src="/images/founder.jpg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
+                            <img src="/founder.jpeg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
                         </motion.div>
                     </motion.div>
                 )}
