@@ -55,7 +55,7 @@ export default function LoginPage() {
                 {/* Card */}
                 <div className="glass rounded-2xl p-8">
                     <h1 className="text-2xl font-bold text-white text-center mb-2">Welcome Back</h1>
-                    <p className="text-dark-200 text-center mb-8">Sign in to continue learning</p>
+                    <p className="text-dark-200 text-center mb-8">Log in to continue learning</p>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
@@ -105,7 +105,7 @@ export default function LoginPage() {
                             ) : (
                                 <>
                                     <LogIn className="w-5 h-5" />
-                                    Sign In
+                                    Log In
                                 </>
                             )}
                         </button>
@@ -115,6 +115,12 @@ export default function LoginPage() {
                         Don&apos;t have an account?{' '}
                         <Link href="/register" className="text-primary-400 hover:text-primary-300 font-medium">
                             Register
+                        </Link>
+                    </p>
+                    <p className="text-center text-dark-200 text-sm mt-6">
+                        Are you want to back Home page?{' '}
+                        <Link href="/#" className="text-primary-400 hover:text-primary-300 font-medium">
+                            Go To Home
                         </Link>
                     </p>
                 </div>
