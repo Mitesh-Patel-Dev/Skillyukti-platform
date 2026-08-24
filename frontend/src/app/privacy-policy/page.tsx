@@ -74,7 +74,8 @@ export default function PrivacyPolicyPage() {
                                 We do not sell your personal data. We only share information with third-party service providers (like payment processors and email service providers) who need access to such information to carry out work on our behalf. These parties are strictly required to protect your data and only use it for its intended purpose.
                             </p>
                             <p className="mt-4 font-medium text-dark-50">
-                                If you have any questions or concerns regarding this policy, please contact us at <a href="mailto:helpskillyukti@gmail.com" className="text-primary-400 hover:text-primary-300">support@skillyukti.com</a>.
+                                If you have any questions or concerns regarding this policy, please contact us  <a href="mailto:helpskillyukti@gmail.com" className="text-primary-400 hover:text-primary-300"> helpskillyukti@gmail.com</a>. 
+                                
                             </p>
                         </div>
                     </div>
