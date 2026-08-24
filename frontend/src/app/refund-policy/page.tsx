@@ -70,7 +70,7 @@ export default function RefundPolicyPage() {
                                 If you are unsure whether a course is right for you, we strongly encourage you to contact our team before making a purchase. We are happy to answer any questions and guide you to the right resource.
                             </p>
                             <p className="mt-4 font-medium text-dark-50">
-                                Email us at <a href="mailto:helpskillyukti@gmail.com" className="text-primary-400 hover:text-primary-300">support@skillyukti.com</a>
+                                Email us at <a href="mailto:helpskillyukti@gmail.com" className="text-primary-400 hover:text-primary-300"> helpskillyukti@gmail.com</a>.
                             </p>
                         </div>
                     </div>
