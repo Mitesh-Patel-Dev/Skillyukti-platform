@@ -157,6 +157,7 @@ export default function Navbar() {
                             <Link href="/#how-it-works" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>How It Works</Link>
                             <Link href="/testimonials" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Testimonials</Link>
                             <Link href="/contact" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Contact</Link>
+                            <Link href="/about" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>About Us</Link>
                             {user ? (
                                 <>
                                     <Link href="/dashboard" className="text-dark-100 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 transition-all" onClick={() => setIsMobileOpen(false)}>Dashboard</Link>
