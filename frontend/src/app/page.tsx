@@ -6,7 +6,7 @@ import Hero from '@/components/landing/Hero';
 import CoursesSection from '@/components/landing/CoursesSection';
 import HowItWorks from '@/components/landing/HowItWorks';
 import InstructorSection from '@/components/landing/InstructorSection';
-import Cofounder from '@/components/landing/cofounder';
+import Cofounder from '@/components/landing/Cofounder';
 import TestimonialsSection from '@/components/landing/TestimonialsSection';
 import CTABanner from '@/components/landing/CTABanner';
 import Footer from '@/components/landing/Footer';
