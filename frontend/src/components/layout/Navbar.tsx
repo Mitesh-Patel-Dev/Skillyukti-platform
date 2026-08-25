@@ -78,6 +78,12 @@ export default function Navbar() {
                         >
                             Contact
                         </Link>
+                         <Link
+                            href="/about"
+                            className="text-dark-100 hover:text-orange-400 transition-colors text-sm font-medium"
+                        >
+                            About Us
+                        </Link>
 
                         {user ? (
                             <div className="flex items-center gap-4">
