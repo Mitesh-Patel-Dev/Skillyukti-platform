@@ -1,6 +1,7 @@
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/landing/Footer';
 import InstructorSection from '@/components/landing/InstructorSection';
+import Cofounder from '@/components/landing/Cofounder';
 import { Target, Lightbulb, ShieldCheck, Users, TrendingUp, Award } from 'lucide-react';
 
 export default function AboutPage() {
@@ -69,7 +70,9 @@ export default function AboutPage() {
             <div className="mt-12">
                 <InstructorSection />
             </div>
-
+            <div className="mt-12">
+                <Cofounder />
+            </div>
             <Footer />
         </main>
     );
