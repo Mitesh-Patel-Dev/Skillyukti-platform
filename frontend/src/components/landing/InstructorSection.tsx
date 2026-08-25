@@ -89,7 +89,7 @@ export default function InstructorSection() {
                                 Khushabu Chauhan is a serial digital entrepreneur who has built
                                 multiple 7-figure online businesses. With over 5+ years of
                                 experience in digital marketing, freelancing, and AI
-                                automation, she has trained 10,000+ students across India.
+                                automation, she has trained 1000+ students across India.
                             </p>
                             <p>
                                 Her mission is simple: to empower every aspiring
