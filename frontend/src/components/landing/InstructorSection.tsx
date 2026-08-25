@@ -87,7 +87,7 @@ export default function InstructorSection() {
                         <div className="space-y-4 text-dark-100 leading-relaxed">
                             <p>
                                 Khushabu Chauhan is a serial digital entrepreneur who has built
-                                multiple 7-figure online businesses. With over 10 years of
+                                multiple 7-figure online businesses. With over 5+ years of
                                 experience in digital marketing, freelancing, and AI
                                 automation, she has trained 10,000+ students across India.
                             </p>
