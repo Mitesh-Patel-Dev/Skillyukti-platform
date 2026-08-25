@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Award, Users, Rocket, X } from 'lucide-react';
 
-export default function InstructorSection() {
+export default function Cofounder() {
     const [isImageOpen, setIsImageOpen] = useState(false);
 
     return (
