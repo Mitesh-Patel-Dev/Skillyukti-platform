@@ -14,7 +14,7 @@ const steps = [
     {
         icon: BookOpen,
         title: 'Learn Proven Strategies',
-        description: 'Follow our step-by-step frameworks used by 10,000+ successful students.',
+        description: 'Follow our step-by-step frameworks used by 1000+ successful students.',
         color: 'from-accent-purple to-primary-500',
         glow: 'rgba(132, 94, 247, 0.3)',
     },
