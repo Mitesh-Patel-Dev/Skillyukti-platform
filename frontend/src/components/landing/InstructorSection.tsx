@@ -23,7 +23,7 @@ export default function InstructorSection() {
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-[2.5rem] blur-3xl opacity-50" />
                             {/* Photo container Founder's */}
-                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10">
+                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10 hover:border-blue-500 transition-colors duration-300">
                                 <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full justify-center">
                                     <motion.div 
                                         whileHover={{ scale: 1.05 }}
@@ -34,7 +34,7 @@ export default function InstructorSection() {
                                         <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
                                             <span className="text-white text-sm font-semibold tracking-wider">VIEW</span>
                                         </div>
-                                        <div className="w-full h-full rounded-full overflow-hidden bg-dark-800 border-4 border-dark-900/50">
+                                        <div className="w-full h-full rounded-full overflow-hidden bg-dark-800 border-4 border-dark-900/50 ">
                                             <img src="/founder.jpeg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
                                         </div>
                                     </motion.div>
@@ -102,17 +102,20 @@ export default function InstructorSection() {
 
                         {/* Stats */}
                         <div className="grid grid-cols-3 gap-6 mt-8">
-                            <div className="glass rounded-xl p-4 text-center">
+                            <div className="glass rounded-xl p-4 text-center transition-all duration-300 ease-in-out hover:scale-105
+                                            hover:shadow-lg hover:shadow-blue-500/20 hover:bg-white/10">
                                 <Rocket className="w-5 h-5 text-primary-400 mx-auto mb-2" />
                                 <div className="text-2xl font-bold text-white">50+</div>
                                 <div className="text-xs text-dark-200">Courses</div>
                             </div>
-                            <div className="glass rounded-xl p-4 text-center">
+                            <div className="glass rounded-xl p-4 text-center transition-all duration-300 ease-in-out hover:scale-105
+                                            hover:shadow-lg hover:shadow-blue-500/20 hover:bg-white/10">
                                 <Users className="w-5 h-5 text-accent-green mx-auto mb-2" />
                                 <div className="text-2xl font-bold text-white">1K+</div>
                                 <div className="text-xs text-dark-200">Students</div>
                             </div>
-                            <div className="glass rounded-xl p-4 text-center">
+                            <div className="glass rounded-xl p-4 text-center transition-all duration-300 ease-in-out hover:scale-105
+                                            hover:shadow-lg hover:shadow-blue-500/20 hover:bg-white/10">
                                 <Award className="w-5 h-5 text-accent-orange mx-auto mb-2" />
                                 <div className="text-2xl font-bold text-white">4.8</div>
                                 <div className="text-xs text-dark-200">Avg Rating</div>
