@@ -53,8 +53,8 @@ export default function ContactPage() {
                         </div>
                     </div>
 
-                    <div className="glass rounded-3xl p-8 lg:col-span-1 relative overflow-hidden flex flex-col justify-between">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-accent-green/10 rounded-full blur-[40px] pointer-events-none" />
+                    <div className="glass rounded-3xl p-8 lg:col-span-1 relative overflow-hidden flex flex-col justify-between card-hover group transition-all duration-300">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-accent-green/10 rounded-full blur-[40px] pointer-events-none " />
                         <div>
                             <h3 className="text-xl font-bold text-orange-400 mb-6">Support Information</h3>
                             
