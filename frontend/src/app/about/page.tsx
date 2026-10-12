@@ -9,7 +9,7 @@ export default function AboutPage() {
         <main className="min-h-screen pt-24 pb-16">
             <Navbar />
             
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-24">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-24 ">
                 <div className="text-center mb-12">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight">
                         About <span className="gradient-text-accent">Skillyukti</span>
@@ -19,7 +19,7 @@ export default function AboutPage() {
                     </p>
                 </div>
                 
-                <div className="glass rounded-3xl p-8 sm:p-12 space-y-8 text-dark-100 leading-relaxed mb-16 relative overflow-hidden">
+                <div className="glass rounded-3xl p-8 sm:p-12 space-y-8 text-dark-100 leading-relaxed mb-16 relative overflow-hidden hover:border-blue-500 transition-colors duration-300">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/10 rounded-full blur-[80px]" />
                     <div className="relative z-10">
                         <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
@@ -41,7 +41,8 @@ export default function AboutPage() {
                 {/* Features Grid */}
                 <h3 className="text-3xl font-bold text-center text-white mb-8">Why Choose <span className="gradient-text">Us?</span></h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                    <div className="glass rounded-2xl p-6 hover:bg-white/5 transition-colors">
+                    <div className="glass rounded-xl p-4 text-center transition-all duration-300 ease-in-out hover:scale-105
+                                            hover:shadow-lg hover:shadow-blue-500/20 hover:bg-white/10">
                         <div className="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
                             <Award className="w-6 h-6 text-primary-400" />
                         </div>
@@ -49,7 +50,8 @@ export default function AboutPage() {
                         <p className="text-sm text-dark-200">Learn directly from industry veterans who have built 7-figure businesses.</p>
                     </div>
                     
-                    <div className="glass rounded-2xl p-6 hover:bg-white/5 transition-colors">
+                    <div className="glass rounded-xl p-4 text-center transition-all duration-300 ease-in-out hover:scale-105
+                                            hover:shadow-lg hover:shadow-blue-500/20 hover:bg-white/10">
                         <div className="w-12 h-12 rounded-xl bg-accent-green/20 flex items-center justify-center mb-4">
                             <TrendingUp className="w-6 h-6 text-accent-green" />
                         </div>
@@ -57,7 +59,8 @@ export default function AboutPage() {
                         <p className="text-sm text-dark-200">Focus on highly actionable, up-to-date strategies that yield tangible results.</p>
                     </div>
 
-                    <div className="glass rounded-2xl p-6 hover:bg-white/5 transition-colors">
+                    <div className="glass rounded-xl p-4 text-center transition-all duration-300 ease-in-out hover:scale-105
+                                            hover:shadow-lg hover:shadow-blue-500/20 hover:bg-white/10">
                         <div className="w-12 h-12 rounded-xl bg-accent-purple/20 flex items-center justify-center mb-4">
                             <Users className="w-6 h-6 text-accent-purple" />
                         </div>
