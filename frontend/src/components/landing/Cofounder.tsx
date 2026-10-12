@@ -23,7 +23,7 @@ export default function Cofounder() {
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-[2.5rem] blur-3xl opacity-50" />
                             {/* Photo container Founder's */}
-                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10">
+                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10 hover:border-blue-500 transition-colors duration-300">
                                 <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full justify-center">
                                     <motion.div 
                                         whileHover={{ scale: 1.05 }}
