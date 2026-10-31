@@ -216,7 +216,7 @@ export default function CoursesPage() {
 
                                             {/* COURSE IMAGE */}
                                             <div
-                                                className={`relative isolate overflow-hidden bg-[#FFFFFF08] ${
+                                                className={`relative isolate overflow-hidden bg-transparent ${
                                                     course.mobileThumbnail
                                                         ? 'aspect-[4/5] md:h-48 md:aspect-auto'
                                                         : 'h-48'
