@@ -56,17 +56,18 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                             >
                                 <div className="glass card-hover rounded-2xl overflow-hidden group h-full flex flex-col">
 
-                                    {/* ========================================
-                                        THUMBNAIL
-                                        Full image + matching background
-                                    ======================================== */}
-
+                                    {/* THUMBNAIL */}
                                     <div
-                                        className={`relative isolate overflow-hidden bg-gradient-to-br from-primary-900/50 to-dark-700 ${
-                                            course.mobileThumbnail
-                                                ? 'aspect-[4/5] md:h-44 md:aspect-auto'
-                                                : 'h-44'
-                                        }`}
+                                        className={`relative isolate overflow-hidden
+                                            bg-gradient-to-br
+                                            from-[#171B35]
+                                            via-[#35251F]
+                                            to-[#171923]
+                                            ${
+                                                course.mobileThumbnail
+                                                    ? 'aspect-[4/5] md:h-44 md:aspect-auto'
+                                                    : 'h-44'
+                                            }`}
                                     >
                                         {course.thumbnail &&
                                         course.thumbnail !==
@@ -77,7 +78,7 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                                     src={course.thumbnail}
                                                     alt=""
                                                     aria-hidden="true"
-                                                    className={`absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-60 ${
+                                                    className={`absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-50 ${
                                                         course.mobileThumbnail
                                                             ? 'hidden md:block'
                                                             : 'block'
@@ -90,12 +91,12 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                                         src={course.mobileThumbnail}
                                                         alt=""
                                                         aria-hidden="true"
-                                                        className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-60 md:hidden"
+                                                        className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-50 md:hidden"
                                                     />
                                                 )}
 
-                                                {/* Background Overlay */}
-                                                <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+                                                {/* Background Colour Overlay */}
+                                                <div className="absolute inset-0 bg-gradient-to-br from-[#171B35]/35 via-[#35251F]/10 to-[#171923]/35 pointer-events-none" />
 
                                                 {/* Main Image - Desktop */}
                                                 <img
@@ -120,7 +121,7 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                         ) : (
                                             <>
                                                 {/* Placeholder Background */}
-                                                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 to-accent-purple/20" />
+                                                <div className="absolute inset-0 bg-gradient-to-br from-[#171B35] via-[#35251F] to-[#171923]" />
 
                                                 {/* Placeholder Icon */}
                                                 <div className="absolute inset-0 flex items-center justify-center">
@@ -149,10 +150,7 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                         </div>
                                     </div>
 
-                                    {/* ========================================
-                                        COURSE CONTENT
-                                    ======================================== */}
-
+                                    {/* COURSE CONTENT */}
                                     <div className="p-5 flex flex-col flex-1">
 
                                         {/* Course Title */}
