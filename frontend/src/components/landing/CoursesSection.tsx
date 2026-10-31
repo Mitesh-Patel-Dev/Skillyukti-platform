@@ -1,4 +1,3 @@
-```tsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -240,4 +239,4 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
         </section>
     );
 }
-```
+
