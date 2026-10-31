@@ -59,7 +59,7 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                     {/* THUMBNAIL */}
                                     <div
                                         className={`relative isolate overflow-hidden
-                                            bg-[#12121F]
+                                            bg-[#FFFFFF08]
                                             ${
                                                 course.mobileThumbnail
                                                     ? 'aspect-[4/5] md:h-44 md:aspect-auto'
