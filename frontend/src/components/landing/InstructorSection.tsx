@@ -22,31 +22,86 @@ export default function InstructorSection() {
                         <div className="relative w-full aspect-[4/3] lg:aspect-square max-w-[500px] lg:max-w-[540px] mx-auto">
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-[2.5rem] blur-3xl opacity-50" />
-                            {/* Photo container Founder's */}
-                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10 hover:border-blue-500 transition-colors duration-300">
-                                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full justify-center">
-                                    <motion.div 
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
+                           {/* Photo Frame */}
+                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-6 sm:p-8 hover:border-blue-500 transition-colors duration-300">
+                            
+                                <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-7 w-full justify-center">
+                            
+                                    {/* Founder Image Frame */}
+                                    <motion.div
+                                        whileHover={{ scale: 1.04 }}
+                                        whileTap={{ scale: 0.96 }}
                                         onClick={() => setIsImageOpen(true)}
-                                        className="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple p-[3px] shrink-0 shadow-2xl cursor-pointer relative group"
+                                        className="relative w-28 h-28 sm:w-36 sm:h-36 shrink-0 cursor-pointer group"
                                     >
-                                        <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                                            <span className="text-white text-sm font-semibold tracking-wider">VIEW</span>
+                            
+                                        {/* Gradient Border */}
+                                        <div
+                                            className="absolute -inset-[3px] bg-gradient-to-br from-primary-500 via-blue-500 to-accent-purple"
+                                            style={{
+                                                borderRadius: "42% 58% 60% 40% / 42% 40% 60% 58%"
+                                            }}
+                                        />
+
+                                        {/* White Frame */}
+                                        <div
+                                            className="absolute inset-0 bg-white p-[4px] overflow-hidden"
+                                            style={{
+                                                borderRadius: "42% 58% 60% 40% / 42% 40% 60% 58%"
+                                            }}
+                                        >
+
+                                            {/* Image Container */}
+                                            <div
+                                                className="relative w-full h-full overflow-hidden bg-dark-800"
+                                                style={{
+                                                    borderRadius: "inherit"
+                                                }}
+                                            >
+
+                                                <img
+                                                    src="/founder.jpeg"
+                                                    alt="Khushabu Chauhan"
+                                                    className="absolute inset-0 w-full h-full object-cover object-top"
+                                                />
+
+                                                {/* Hover Overlay */}
+                                                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                                    <span className="text-white text-xs font-semibold tracking-wider">
+                                                        VIEW
+                                                    </span>
+                                                </div>
+                            
+                                            </div>
                                         </div>
-                                        <div className="w-full h-full rounded-full overflow-hidden bg-dark-800 border-4 border-dark-900/50 ">
-                                            <img src="/founder.jpeg" alt="Khushabu Chauhan" className="w-full h-full object-cover object-top" />
+
+                                        {/* Decorative Accent */}
+                                        <div className="absolute -top-2 -right-2 flex gap-1.5 rotate-[-25deg] pointer-events-none">
+                                            <span className="w-2 h-5 rounded-full bg-purple-500" />
+                                            <span className="w-2 h-5 rounded-full bg-blue-500 translate-y-1.5" />
+                                            <span className="w-2 h-5 rounded-full bg-cyan-400 translate-y-3" />
                                         </div>
+
                                     </motion.div>
+
+                                    {/* Founder Details */}
                                     <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-                                        <h3 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-tight whitespace-nowrap">
-                                            Khushabu Chauhan
-                                        </h3>
-                                        <p className="text-primary-300 font-medium text-lg sm:text-xl mt-2 whitespace-nowrap">
+
+                                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-tight tracking-tight whitespace-nowrap">
+                                             Khushabu Chauhan
+                                         </h3>
+                            
+                                        <p className="text-primary-300 font-medium text-base sm:text-lg mt-2">
                                             Founder & CEO
                                         </p>
+                            
+                                        {/* Gradient Underline */}
+                                        <div className="w-28 h-1 rounded-full bg-gradient-to-r from-accent-purple to-cyan-400 mt-4" />
+                            
                                     </div>
+
                                 </div>
+
                             </div>
 
                             {/* Floating badges */}
