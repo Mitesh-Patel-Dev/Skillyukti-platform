@@ -22,32 +22,67 @@ export default function Cofounder() {
                         <div className="relative w-full aspect-[4/3] lg:aspect-square max-w-[500px] lg:max-w-[540px] mx-auto">
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-accent-purple/20 rounded-[2.5rem] blur-3xl opacity-50" />
-                            {/* Photo container Founder's */}
-                            <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10 hover:border-blue-500 transition-colors duration-300">
-                                <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full justify-center">
-                                    <motion.div 
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        onClick={() => setIsImageOpen(true)}
-                                        className="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-primary-500 to-accent-purple p-[3px] shrink-0 shadow-2xl cursor-pointer relative group"
-                                    >
-                                        <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                                            <span className="text-white text-sm font-semibold tracking-wider">VIEW</span>
+                            {/* Photo Frame */}
+                          <div className="relative glass rounded-[2.5rem] overflow-hidden w-full h-full flex flex-col items-center justify-center p-8 sm:p-10 hover:border-blue-500 transition-colors duration-300">
+                              <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 w-full justify-center">
+      
+                                 {/* Premium 3D Photo Frame */}
+                                 <motion.div
+                                     whileHover={{ scale: 1.05 }}
+                                     whileTap={{ scale: 0.95 }}
+                                     onClick={() => setIsImageOpen(true)}
+                                     className="relative w-32 h-32 sm:w-36 sm:h-36 shrink-0 cursor-pointer group"
+                                 >
+                                     {/* Outer Glow */}
+                                     <div className="absolute -inset-2 rounded-[1.8rem] bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 opacity-50 blur-lg group-hover:opacity-90 transition-opacity duration-300" />
+
+                                     {/* Gradient Frame */}
+                                     <div className="absolute -inset-[3px] rounded-[1.6rem] bg-gradient-to-br from-cyan-300 via-blue-500 to-purple-600 shadow-xl" />
+                    
+                                     {/* Inner Border */}
+                                     <div className="absolute inset-0 rounded-[1.4rem] bg-slate-950 p-[4px]">
+                                         <div className="relative w-full h-full rounded-[1.15rem] overflow-hidden bg-dark-800">
+                    
+                                             {/* Original Image */}
+                                             <img
+                                                 src="/co-founder.jpeg"
+                                                 alt="Milan Chauhan"
+                                                                       className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                                             />
+                          
+                                            {/* VIEW Overlay */}
+                                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                                                <span className="text-white text-sm font-semibold tracking-wider border border-white/60 rounded-full px-3 py-1.5 backdrop-blur-sm">
+                                                    VIEW
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="w-full h-full rounded-full overflow-hidden bg-dark-800 border-4 border-dark-900/50">
-                                            <img src="/co-founder.jpeg" alt="Milan Chauhan" className="w-full h-full object-cover object-top" />
-                                        </div>
-                                    </motion.div>
-                                    <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-                                        <h3 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-tight whitespace-nowrap">
-                                            Milan Chauhan
-                                        </h3>
-                                        <p className="text-primary-300 font-medium text-lg sm:text-xl mt-2 whitespace-nowrap">
-                                            Co-Founder
-                                        </p>
                                     </div>
-                                </div>
-                            </div>
+      
+                                    {/* Top-Right Accent */}
+                                    <div className="absolute -top-2 -right-2 z-20 w-7 h-7 rounded-xl bg-gradient-to-br from-cyan-300 to-blue-600 border-2 border-slate-950 shadow-lg flex items-center justify-center">
+                                        <span className="text-white text-sm font-bold">✦</span>
+                                    </div>
+
+                                       {/* Bottom-Left Accent */}
+                                       <div className="absolute -bottom-1.5 -left-1.5 z-20 w-5 h-5 rounded-lg bg-gradient-to-br from-purple-400 to-pink-500 border-2 border-slate-950 shadow-md" />
+                                   </motion.div>
+
+                                   {/* Original Co-Founder Details */}
+                                  <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+                                      <h3 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-tight whitespace-nowrap">
+                                          Milan Chauhan
+                                      </h3>
+      
+                                      <p className="text-primary-300 font-medium text-base sm:text-lg mt-2">
+                                         Co-Founder
+                                     </p>
+                          
+                                     <div className="w-28 h-1 rounded-full bg-gradient-to-r from-accent-purple to-cyan-400 mt-4" />
+                                 </div>
+                    
+                              </div>
+                          </div>
 
                             
                         </div>
