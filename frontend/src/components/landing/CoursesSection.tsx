@@ -58,7 +58,7 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
 
                                     {/* THUMBNAIL */}
                                     <div
-                                        className={`relative isolate overflow-hidden bg-[#FFFFFF08]
+                                        className={`relative isolate overflow-hidden
                                             ${
                                                 course.mobileThumbnail
                                                     ? 'aspect-[4/5] md:h-44 md:aspect-auto'
@@ -69,34 +69,6 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                         course.thumbnail !==
                                             '/images/course-placeholder.jpg' ? (
                                             <>
-                                                {/* Background Image - Desktop */}
-                                                <img
-                                                    src={course.thumbnail}
-                                                    alt=""
-                                                    aria-hidden="true"
-                                                    className={`absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-35 ${
-                                                        course.mobileThumbnail
-                                                            ? 'hidden md:block'
-                                                            : 'block'
-                                                    }`}
-                                                />
-
-                                                {/* Background Image - Mobile */}
-                                                {course.mobileThumbnail && (
-                                                    <img
-                                                        src={course.mobileThumbnail}
-                                                        alt=""
-                                                        aria-hidden="true"
-                                                        className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-35 md:hidden"
-                                                    />
-                                                )}
-
-                                                {/* Card-Matching Background */}
-                                                <div className="absolute inset-0 bg-[#FFFFFF08] pointer-events-none" />
-
-                                                {/* Soft Background Glow */}
-                                                <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
-
                                                 {/* Main Image - Desktop */}
                                                 <img
                                                     src={course.thumbnail}
@@ -119,8 +91,8 @@ export default function CoursesSection({ courses }: CoursesSectionProps) {
                                             </>
                                         ) : (
                                             <>
-                                                {/* Placeholder Background */}
-                                                <div className="absolute inset-0 bg-[#FFFFFF08]" />
+                                                {/* Transparent Placeholder Background */}
+                                                <div className="absolute inset-0" />
 
                                                 {/* Placeholder Icon */}
                                                 <div className="absolute inset-0 flex items-center justify-center">
