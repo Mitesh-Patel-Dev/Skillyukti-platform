@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Star, Clock, Users, ArrowRight, Search, Filter } from 'lucide-react';
+import { Star, Clock, Users, ArrowRight, Search } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/landing/Footer';
 import api from '@/lib/api';
@@ -24,58 +24,117 @@ export default function CoursesPage() {
                 // Fallback data
                 setCourses([
                     {
-                        _id: '1', title: 'Digital Marketing Mastery', slug: 'digital-marketing-mastery',
-                        description: '', shortDescription: 'Master SEO, social media, email marketing, and paid ads.',
-                        price: 4999, originalPrice: 9999, thumbnail: '', category: 'Digital Marketing',
+                        _id: '1',
+                        title: 'Digital Marketing Mastery',
+                        slug: 'digital-marketing-mastery',
+                        description: '',
+                        shortDescription: 'Master SEO, social media, email marketing, and paid ads.',
+                        price: 4999,
+                        originalPrice: 9999,
+                        thumbnail: '',
+                        category: 'Digital Marketing',
                         instructor: { name: 'Khushabu Chauhan', bio: '', avatar: '' },
-                        lessons: [], totalDuration: '24h 30m', totalLessons: 8, published: true,
-                        featured: true, enrolledCount: 2345, rating: 4.8, createdAt: '',
+                        lessons: [],
+                        totalDuration: '24h 30m',
+                        totalLessons: 8,
+                        published: true,
+                        featured: true,
+                        enrolledCount: 2345,
+                        rating: 4.8,
+                        createdAt: '',
                     },
                     {
-                        _id: '2', title: 'Freelancing Freedom Blueprint', slug: 'freelancing-freedom-blueprint',
-                        description: '', shortDescription: 'Build a profitable freelancing career from scratch.',
-                        price: 3999, originalPrice: 7999, thumbnail: '', category: 'Freelancing',
+                        _id: '2',
+                        title: 'Freelancing Freedom Blueprint',
+                        slug: 'freelancing-freedom-blueprint',
+                        description: '',
+                        shortDescription: 'Build a profitable freelancing career from scratch.',
+                        price: 3999,
+                        originalPrice: 7999,
+                        thumbnail: '',
+                        category: 'Freelancing',
                         instructor: { name: 'Khushabu Chauhan', bio: '', avatar: '' },
-                        lessons: [], totalDuration: '18h 15m', totalLessons: 6, published: true,
-                        featured: true, enrolledCount: 1890, rating: 4.7, createdAt: '',
+                        lessons: [],
+                        totalDuration: '18h 15m',
+                        totalLessons: 6,
+                        published: true,
+                        featured: true,
+                        enrolledCount: 1890,
+                        rating: 4.7,
+                        createdAt: '',
                     },
                     {
-                        _id: '3', title: 'AI & Automation for Business', slug: 'ai-automation-for-business',
-                        description: '', shortDescription: 'Use AI tools and automation to 10x your productivity.',
-                        price: 5999, originalPrice: 11999, thumbnail: '', category: 'AI & Technology',
+                        _id: '3',
+                        title: 'AI & Automation for Business',
+                        slug: 'ai-automation-for-business',
+                        description: '',
+                        shortDescription: 'Use AI tools and automation to 10x your productivity.',
+                        price: 5999,
+                        originalPrice: 11999,
+                        thumbnail: '',
+                        category: 'AI & Technology',
                         instructor: { name: 'Khushabu Chauhan', bio: '', avatar: '' },
-                        lessons: [], totalDuration: '20h 45m', totalLessons: 7, published: true,
-                        featured: true, enrolledCount: 3210, rating: 4.9, createdAt: '',
+                        lessons: [],
+                        totalDuration: '20h 45m',
+                        totalLessons: 7,
+                        published: true,
+                        featured: true,
+                        enrolledCount: 3210,
+                        rating: 4.9,
+                        createdAt: '',
                     },
                     {
-                        _id: '4', title: 'E-commerce Store Builder', slug: 'ecommerce-store-builder',
-                        description: '', shortDescription: 'Launch a profitable online store.',
-                        price: 6999, originalPrice: 13999, thumbnail: '', category: 'E-commerce',
+                        _id: '4',
+                        title: 'E-commerce Store Builder',
+                        slug: 'ecommerce-store-builder',
+                        description: '',
+                        shortDescription: 'Launch a profitable online store.',
+                        price: 6999,
+                        originalPrice: 13999,
+                        thumbnail: '',
+                        category: 'E-commerce',
                         instructor: { name: 'Khushabu Chauhan', bio: '', avatar: '' },
-                        lessons: [], totalDuration: '22h 10m', totalLessons: 7, published: true,
-                        featured: true, enrolledCount: 1567, rating: 4.6, createdAt: '',
+                        lessons: [],
+                        totalDuration: '22h 10m',
+                        totalLessons: 7,
+                        published: true,
+                        featured: true,
+                        enrolledCount: 1567,
+                        rating: 4.6,
+                        createdAt: '',
                     },
                 ]);
             } finally {
                 setLoading(false);
             }
         };
+
         fetchCourses();
     }, []);
 
-    const categories = ['All', ...Array.from(new Set(courses.map((c) => c.category)))];
+    const categories = [
+        'All',
+        ...Array.from(new Set(courses.map((c) => c.category))),
+    ];
 
     const filtered = courses.filter((c) => {
-        const matchSearch = c.title.toLowerCase().includes(search.toLowerCase());
-        const matchCategory = category === 'All' || c.category === category;
+        const matchSearch = c.title
+            .toLowerCase()
+            .includes(search.toLowerCase());
+
+        const matchCategory =
+            category === 'All' || c.category === category;
+
         return matchSearch && matchCategory;
     });
 
     return (
         <>
             <Navbar />
+
             <main className="min-h-screen pt-24 pb-32">
                 <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+
                     {/* Header */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -83,17 +142,25 @@ export default function CoursesPage() {
                         className="text-center mb-12"
                     >
                         <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-                            Explore <span className="gradient-text-accent">Our Courses</span>
+                            Explore{' '}
+                            <span className="gradient-text-accent">
+                                Our Courses
+                            </span>
                         </h1>
+
                         <p className="text-dark-100 text-lg max-w-2xl mx-auto">
-                            Industry-ready courses designed to help you build a profitable career online.
+                            Industry-ready courses designed to help you build
+                            a profitable career online.
                         </p>
                     </motion.div>
 
                     {/* Filters */}
                     <div className="flex flex-col sm:flex-row gap-4 mb-10">
+
+                        {/* Search */}
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-300" />
+
                             <input
                                 type="text"
                                 value={search}
@@ -102,15 +169,18 @@ export default function CoursesPage() {
                                 className="w-full bg-dark-700/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder-dark-300 focus:outline-none focus:border-primary-500 transition-all"
                             />
                         </div>
+
+                        {/* Category Filters */}
                         <div className="flex gap-2 flex-wrap">
                             {categories.map((cat) => (
                                 <button
                                     key={cat}
                                     onClick={() => setCategory(cat)}
-                                    className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${category === cat
-                                        ? 'bg-primary-600 text-white'
-                                        : 'glass text-dark-100 hover:text-white hover:bg-white/10'
-                                        }`}
+                                    className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                                        category === cat
+                                            ? 'bg-primary-600 text-white'
+                                            : 'glass text-dark-100 hover:text-white hover:bg-white/10'
+                                    }`}
                                 >
                                     {cat}
                                 </button>
@@ -118,11 +188,14 @@ export default function CoursesPage() {
                         </div>
                     </div>
 
-                    {/* Grid */}
+                    {/* Course Grid */}
                     {loading ? (
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="glass rounded-2xl h-80 animate-pulse" />
+                                <div
+                                    key={i}
+                                    className="glass rounded-2xl h-80 animate-pulse"
+                                />
                             ))}
                         </div>
                     ) : (
@@ -133,77 +206,139 @@ export default function CoursesPage() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
+                                    className="h-full"
                                 >
-                                    <Link href={`/courses/${course.slug}`}>
+                                    <Link
+                                        href={`/courses/${course.slug}`}
+                                        className="block h-full"
+                                    >
                                         <div className="glass card-hover rounded-2xl overflow-hidden group h-full flex flex-col">
-                                            <div className={`relative overflow-hidden bg-gradient-to-br from-primary-900/50 to-dark-700 ${course.mobileThumbnail ? 'aspect-[4/5] md:h-48 md:aspect-auto' : 'h-48'}`}>
-                                                {course.thumbnail && course.thumbnail !== '/images/course-placeholder.jpg' ? (
+
+                                            {/* COURSE IMAGE */}
+                                            <div
+                                                className={`relative isolate overflow-hidden bg-[#FFFFFF08] ${
+                                                    course.mobileThumbnail
+                                                        ? 'aspect-[4/5] md:h-48 md:aspect-auto'
+                                                        : 'h-48'
+                                                }`}
+                                            >
+                                                {course.thumbnail &&
+                                                course.thumbnail !==
+                                                    '/images/course-placeholder.jpg' ? (
                                                     <>
+                                                        {/* Desktop Image */}
+                                                        <img
+                                                            src={course.thumbnail}
+                                                            alt={course.title}
+                                                            className={`absolute inset-0 w-full h-full object-contain z-10 transition-transform duration-500 group-hover:scale-[1.02] ${
+                                                                course.mobileThumbnail
+                                                                    ? 'hidden md:block'
+                                                                    : 'block'
+                                                            }`}
+                                                        />
+
+                                                        {/* Mobile Image */}
                                                         {course.mobileThumbnail && (
-                                                            <img src={course.mobileThumbnail} alt={course.title} className="md:hidden absolute inset-0 w-full h-full object-cover" />
+                                                            <img
+                                                                src={course.mobileThumbnail}
+                                                                alt={course.title}
+                                                                className="absolute inset-0 w-full h-full object-contain z-10 transition-transform duration-500 group-hover:scale-[1.02] md:hidden"
+                                                            />
                                                         )}
-                                                        <img src={course.thumbnail} alt={course.title} className={`absolute inset-0 w-full h-full object-cover ${course.mobileThumbnail ? 'hidden md:block' : ''}`} />
                                                     </>
                                                 ) : (
-                                                    <>
-                                                        <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 to-accent-purple/20" />
-                                                        <div className="absolute inset-0 flex items-center justify-center">
-                                                            <span className="text-5xl">
-                                                                {course.category === 'Digital Marketing' && '📊'}
-                                                                {course.category === 'Freelancing' && '💼'}
-                                                                {course.category === 'AI & Technology' && '🤖'}
-                                                                {course.category === 'E-commerce' && '🛒'}
-                                                                {!['Digital Marketing', 'Freelancing', 'AI & Technology', 'E-commerce'].includes(course.category) && '📚'}
-                                                            </span>
-                                                        </div>
-                                                    </>
+                                                    /* Placeholder */
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <span className="text-5xl">
+                                                            {course.category === 'Digital Marketing' && '📊'}
+                                                            {course.category === 'Freelancing' && '💼'}
+                                                            {course.category === 'AI & Technology' && '🤖'}
+                                                            {course.category === 'E-commerce' && '🛒'}
+
+                                                            {![
+                                                                'Digital Marketing',
+                                                                'Freelancing',
+                                                                'AI & Technology',
+                                                                'E-commerce',
+                                                            ].includes(course.category) && '📚'}
+                                                        </span>
+                                                    </div>
                                                 )}
-                                                <div className="absolute top-3 left-3">
+
+                                                {/* Category Badge */}
+                                                <div className="absolute top-3 left-3 z-20">
                                                     <span className="px-3 py-1 text-xs font-semibold rounded-full bg-primary-600/80 text-white backdrop-blur-sm">
                                                         {course.category}
                                                     </span>
                                                 </div>
+
+                                                {/* Discount Badge */}
                                                 {course.originalPrice > course.price && (
-                                                    <div className="absolute top-3 right-3">
+                                                    <div className="absolute top-3 right-3 z-20">
                                                         <span className="px-2 py-1 text-xs font-bold rounded-full bg-accent-pink/80 text-white">
-                                                            {Math.round((1 - course.price / course.originalPrice) * 100)}% OFF
+                                                            {Math.round(
+                                                                (1 -
+                                                                    course.price /
+                                                                        course.originalPrice) *
+                                                                    100
+                                                            )}
+                                                            % OFF
                                                         </span>
                                                     </div>
                                                 )}
                                             </div>
 
+                                            {/* COURSE CONTENT */}
                                             <div className="p-6 flex flex-col flex-1">
+
+                                                {/* Title */}
                                                 <h3 className="text-lg font-bold text-white mb-2 group-hover:text-primary-300 transition-colors">
                                                     {course.title}
                                                 </h3>
+
+                                                {/* Description */}
                                                 <p className="text-dark-200 text-sm mb-4 flex-1">
                                                     {course.shortDescription}
                                                 </p>
 
+                                                {/* Course Information */}
                                                 <div className="flex items-center gap-4 text-xs text-dark-200 mb-4">
+
                                                     <div className="flex items-center gap-1">
-                                                        <Clock className="w-3.5 h-3.5" />
-                                                        {course.totalDuration}
+                                                        <Clock className="w-3.5 h-3.5 shrink-0" />
+                                                        <span>{course.totalDuration}</span>
                                                     </div>
+
                                                     <div className="flex items-center gap-1">
-                                                        <Users className="w-3.5 h-3.5" />
-                                                        {course.enrolledCount.toLocaleString()}
+                                                        <Users className="w-3.5 h-3.5 shrink-0" />
+                                                        <span>
+                                                            {course.enrolledCount.toLocaleString()}
+                                                        </span>
                                                     </div>
+
                                                     <div className="flex items-center gap-1">
-                                                        <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
-                                                        {course.rating}
+                                                        <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500 shrink-0" />
+                                                        <span>{course.rating}</span>
                                                     </div>
                                                 </div>
 
+                                                {/* Price & Button */}
                                                 <div className="flex items-center justify-between pt-4 border-t border-white/5">
                                                     <div>
-                                                        <span className="text-2xl font-bold text-white">₹{course.price.toLocaleString()}</span>
+                                                        <span className="text-2xl font-bold text-white">
+                                                            ₹{course.price.toLocaleString()}
+                                                        </span>
+
                                                         {course.originalPrice > course.price && (
-                                                            <span className="text-sm text-dark-300 line-through ml-2">₹{course.originalPrice.toLocaleString()}</span>
+                                                            <span className="text-sm text-dark-300 line-through ml-2">
+                                                                ₹{course.originalPrice.toLocaleString()}
+                                                            </span>
                                                         )}
                                                     </div>
+
                                                     <span className="text-primary-400 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                                                        View Course <ArrowRight className="w-4 h-4" />
+                                                        View Course
+                                                        <ArrowRight className="w-4 h-4" />
                                                     </span>
                                                 </div>
                                             </div>
@@ -214,13 +349,17 @@ export default function CoursesPage() {
                         </div>
                     )}
 
+                    {/* No Results */}
                     {!loading && filtered.length === 0 && (
                         <div className="text-center py-20">
-                            <p className="text-dark-200 text-lg">No courses found matching your criteria.</p>
+                            <p className="text-dark-200 text-lg">
+                                No courses found matching your criteria.
+                            </p>
                         </div>
                     )}
                 </div>
             </main>
+
             <Footer />
         </>
     );
